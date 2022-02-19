@@ -13,17 +13,37 @@ repositories {
 }
 
 dependencies {
+    // Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // DB
     implementation 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    
+    runtimeOnly 'com.h2database:h2'
+
     // Lombok
     implementation 'org.projectlombok:lombok'
     compileOnly 'org.projectlombok:lombok:1.18.18'
     annotationProcessor 'org.projectlombok:lombok:1.18.18'
+
+    // Email
+    implementation ('org.springframework.boot:spring-boot-starter-mail')
+
+    // Tyhmleaf
+    implementation ('org.springframework.boot:spring-boot-starter-thymeleaf')
+
+    //Swagger
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+    // Batch
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+}
+
+jar {
+    enabled = false
 }
 
 tasks.named('test') {
