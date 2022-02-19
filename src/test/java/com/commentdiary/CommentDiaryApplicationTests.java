@@ -8,7 +8,6 @@ class CommentDiaryApplicationTests {
 
     @Test
     void contextLoads() {
-        System.out.println("test 2");
     }
 
 }
