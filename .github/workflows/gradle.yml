@@ -15,7 +15,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -25,9 +24,11 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-
+        
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
+      shell: bash
 
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./gradlew clean build
+      shell: bash
