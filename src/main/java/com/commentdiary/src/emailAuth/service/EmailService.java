@@ -39,10 +39,16 @@ public class EmailService {
 
         javaMailSender.send(messagePreparator);
 
-        emailAuthRepository.save(EmailAuth.builder()
-                .email(emailSendDto.getEmail())
-                .code(code)
-                .build());
+        if  (emailAuthRepository.existsByEmail(emailSendDto.getEmail())) {
+            EmailAuth emailAuth = emailAuthRepository.findByEmail(emailSendDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("Not Found"));
+            emailAuth.updateCode(code);
+        }
+        else {
+            emailAuthRepository.save(EmailAuth.builder()
+                    .email(emailSendDto.getEmail())
+                    .code(code)
+                    .build());
+        }
 
     }
 

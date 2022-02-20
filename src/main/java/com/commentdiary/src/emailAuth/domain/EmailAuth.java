@@ -29,4 +29,8 @@ public class EmailAuth extends BaseTimeEntity {
         this.email = email;
         this.code = code;
     }
+
+    public void updateCode(int code) {
+        this.code = code;
+    }
 }
