@@ -1,5 +1,6 @@
 package com.commentdiary.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -14,10 +15,12 @@ public class JwtUtil {
     }
 
     public String createJwt(String email){
+        Claims claims = Jwts.claims().setSubject(email);
+        System.out.println("jwt 호출 안됨");
         Date now = new Date();
         return Jwts.builder()
                 .setHeaderParam("type","jwt")
-                .claim("userId", email)
+                .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(System.currentTimeMillis()+1*(1000*60*60*24*365)))
                 .signWith(key, SignatureAlgorithm.HS256)
