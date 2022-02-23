@@ -3,6 +3,7 @@ package com.commentdiary.src.diary.domain;
 import com.commentdiary.common.domain.BaseTimeEntity;
 import com.commentdiary.src.member.domain.Member;
 import com.commentdiary.src.member.domain.enums.MemberStatus;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,5 +26,15 @@ public class Diary extends BaseTimeEntity {
     @Lob
     private String content;
 
+    private String diaryDate;
+
     private char deliveryYn;
+
+    @Builder
+    public Diary(Member member, String content, String diaryDate, char deliveryYn) {
+        this.member = member;
+        this.content = content;
+        this.diaryDate = diaryDate;
+        this.deliveryYn = deliveryYn;
+    }
 }

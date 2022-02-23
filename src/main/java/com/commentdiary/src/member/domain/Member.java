@@ -5,17 +5,21 @@ import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.common.exception.ErrorCode;
 import com.commentdiary.src.member.domain.enums.MemberStatus;
 import com.commentdiary.src.member.domain.enums.Role;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@DynamicInsert
+@Builder
 @Table(name = "members")
 public class Member extends BaseTimeEntity {
     @Id
@@ -34,15 +38,14 @@ public class Member extends BaseTimeEntity {
 //    @Column(nullable = false)
 //    private char pushYn;
 //
-//    @Enumerated(EnumType.STRING)
-//    @Column(columnDefinition = "varchar(10) default 'ACTIVE'", nullable = false)
-//    private MemberStatus status;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(10) default 'ACTIVE'", nullable = false)
+    private MemberStatus status;
 
-    @Builder
-    public Member (String email, String password, Role role) {
-        this.email = email;
-        this.password = password;
-        this.role = role;
+    public static Member of(long memberId){
+        return Member.builder()
+                .id(memberId)
+                .build();
     }
 
     public void checkPassword(PasswordEncoder passwordEncoder, String password) {
