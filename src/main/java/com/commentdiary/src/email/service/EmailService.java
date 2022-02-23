@@ -43,6 +43,7 @@ public class EmailService {
             EmailAuth emailAuth = emailAuthRepository.findByEmail(emailSendDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("Not Found"));
             emailAuth.updateCode(code);
         }
+
         else {
             emailAuthRepository.save(EmailAuth.builder()
                     .email(emailSendDto.getEmail())
