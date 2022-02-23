@@ -1,6 +1,6 @@
-package com.commentdiary.src.emailAuth.repository;
+package com.commentdiary.src.email.repository;
 
-import com.commentdiary.src.emailAuth.domain.EmailAuth;
+import com.commentdiary.src.email.domain.EmailAuth;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

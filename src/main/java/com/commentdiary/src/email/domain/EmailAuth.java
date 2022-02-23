@@ -1,11 +1,9 @@
-package com.commentdiary.src.emailAuth.domain;
+package com.commentdiary.src.email.domain;
 
 import com.commentdiary.common.domain.BaseTimeEntity;
-import com.commentdiary.src.member.domain.enums.MemberStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 

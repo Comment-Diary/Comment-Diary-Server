@@ -1,6 +1,5 @@
-package com.commentdiary.src.emailAuth.dto;
+package com.commentdiary.src.email.dto;
 
-import com.commentdiary.src.emailAuth.domain.EmailAuth;
 import lombok.*;
 
 @Getter
