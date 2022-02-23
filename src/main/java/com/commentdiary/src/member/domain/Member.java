@@ -1,11 +1,15 @@
 package com.commentdiary.src.member.domain;
 
 import com.commentdiary.common.domain.BaseTimeEntity;
+import com.commentdiary.common.exception.CommonException;
+import com.commentdiary.common.exception.ErrorCode;
 import com.commentdiary.src.member.domain.enums.MemberStatus;
+import com.commentdiary.src.member.domain.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -24,6 +28,9 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
 //    @Column(nullable = false)
 //    private char pushYn;
 //
@@ -32,8 +39,19 @@ public class Member extends BaseTimeEntity {
 //    private MemberStatus status;
 
     @Builder
-    public Member (String email, String password) {
+    public Member (String email, String password, Role role) {
         this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public void checkPassword(PasswordEncoder passwordEncoder, String password) {
+        if (!passwordEncoder.matches(password, this.password)) {
+            throw new CommonException(ErrorCode.INVALID_PASSWORD);
+        }
+    }
+
+    public void changePassword(String password) {
         this.password = password;
     }
 }
