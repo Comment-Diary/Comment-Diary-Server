@@ -32,4 +32,12 @@ public class EmailController {
         return new CommonResponse<>(SUCCESS);
     }
 
+    @GetMapping("/password")
+    public CommonResponse<Void> sendPassword(@RequestParam(value = "email") EmailAddrRequest emailAddrRequest) {
+        emailService.sendPassword(new EmailSendDto(emailAddrRequest.getEmail(),"임시 비밀번호 발급", ""));
+        return new CommonResponse<>(SUCCESS);
+    }
+
+
+
 }

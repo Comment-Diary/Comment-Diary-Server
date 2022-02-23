@@ -65,6 +65,32 @@ public class EmailService {
 
     }
 
+    @Async
+    public void sendPassword(EmailSendDto emailSendDto) {
+
+        if (memberRepository.existsByEmail(emailSendDto.getEmail())) {
+
+            String tempPassword = getTempPassword();
+            String message = emailContentBuilder(tempPassword);
+
+            EmailSendDto temp = new EmailSendDto(emailSendDto.getEmail(), emailSendDto.getTitle(), message);
+            MimeMessagePreparator messagePreparator = mimeMessage -> {
+                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+                messageHelper.setTo(temp.getEmail());
+                messageHelper.setSubject(temp.getTitle());
+                messageHelper.setText(temp.getMessage(), true);
+            };
+            javaMailSender.send(messagePreparator);
+
+            Member member = memberRepository.findByEmail(emailSendDto.getEmail()).orElseThrow(() ->  new CommonException(MEMBER_NOT_FOUND));
+            member.changePassword((new BCryptPasswordEncoder().encode(tempPassword)));
+        }
+
+        else {
+            throw new CommonException(ErrorCode.MEMBER_NOT_FOUND);
+        }
+    }
+
     public boolean confirmCode(ConfirmCodeResquest confirmCodeResquest) {
         if (emailAuthRepository.existsByEmailAndCode(confirmCodeResquest.getEmail(), confirmCodeResquest.getCode())) {
             return true;
@@ -80,10 +106,29 @@ public class EmailService {
         return templateEngine.process("email-template", context);
     }
 
+    private String emailContentBuilder(String tempPassword) {
+        Context context = new Context();
+        context.setVariable("code", tempPassword);
+        return templateEngine.process("email-template", context);
+    }
 
     private int createCode() {
         int code = (int)((Math.random()* (9999 - 1000 + 1)) + 1000);
         return code;
+    }
+
+    private String getTempPassword(){
+        char[] charArr = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+        String str = "";
+
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charArr.length * Math.random());
+            str += charArr[idx];
+        }
+        return str;
     }
 
 }
