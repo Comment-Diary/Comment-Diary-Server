@@ -11,21 +11,16 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateDiaryRequest {
+public class DiaryResponse {
     private String title;
     private String content;
     private String date;
-    private char deliveryYn;
 
-    public Diary toEntity(Member member, CreateDiaryRequest request) {
-        return Diary.builder()
-                .member(member)
-                .title(request.getTitle())
-                .content(request.getContent())
-                .date(request.date)
-                .isDeleted(false)
+    public static DiaryResponse of(Diary diary) {
+        return DiaryResponse.builder()
+                .title(diary.getTitle())
+                .content(diary.getContent())
+                .date(diary.getDate())
                 .build();
     }
-
-
 }

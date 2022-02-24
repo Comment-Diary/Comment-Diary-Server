@@ -2,14 +2,13 @@ package com.commentdiary.src.diary.controller;
 
 import com.commentdiary.common.response.CommonResponse;
 import com.commentdiary.src.diary.dto.CreateDiaryRequest;
+import com.commentdiary.src.diary.dto.DiaryResponse;
 import com.commentdiary.src.diary.service.DiaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.commentdiary.common.response.CommonResponseStatus.SUCCESS;
 
@@ -25,6 +24,12 @@ public class DiaryController {
     public CommonResponse<Void> createDiary(@RequestBody CreateDiaryRequest createDiaryRequest) {
         diaryService.createDiary(createDiaryRequest);
         return new CommonResponse<>(SUCCESS);
-
     }
+
+    @GetMapping("/search")
+    public CommonResponse<List<DiaryResponse>> getDiaryByDate(@RequestParam(value = "date") String date) {
+        return new CommonResponse<>(diaryService.getDiaryByDate(date));
+    }
+
 }
+
