@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY=/home/ec2-user/app/step2/zip
+REPOSITORY=/home/ec2-user/app/dev
 
 echo "> Check running pid"
 
