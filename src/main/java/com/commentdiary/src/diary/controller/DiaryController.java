@@ -26,6 +26,12 @@ public class DiaryController {
         return new CommonResponse<>(SUCCESS);
     }
 
+    @PatchMapping("/{diaryId}")
+    public CommonResponse<Void> updateDiary(@PathVariable(value = "diaryId") long diaryId, @RequestBody CreateDiaryRequest createDiaryRequest) {
+        diaryService.updateDiary(diaryId, createDiaryRequest);
+        return new CommonResponse<>(SUCCESS);
+    }
+
     @GetMapping("/search")
     public CommonResponse<List<DiaryResponse>> getDiaryByDate(@RequestParam(value = "date") String date) {
         return new CommonResponse<>(diaryService.getDiaryByDate(date));

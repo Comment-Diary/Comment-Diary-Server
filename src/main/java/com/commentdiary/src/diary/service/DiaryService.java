@@ -15,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.commentdiary.common.exception.ErrorCode.MEMBER_NOT_FOUND;
+import static com.commentdiary.common.exception.ErrorCode.NOT_FOUND_MEMBER;
+import static com.commentdiary.common.exception.ErrorCode.NOT_FOUND_DIARY;
 
 @Service
 @Transactional
@@ -26,18 +27,15 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
 
     public void createDiary(CreateDiaryRequest createDiaryRequest) {
-//        Long memberId = getMemberId();
-//        Diary diary = Diary.builder()
-//                .title(createDiaryRequest.getTitle())
-//                .date(createDiaryRequest.getDate())
-//                .content(createDiaryRequest.getContent())
-//                .deliveryYn(createDiaryRequest.getDeliveryYn())
-//                .member(Member.of(memberId))
-//                .build();
-//        diaryRepository.save(diary);
-
         Member member = getCurrentMemberId();
         Diary diary = diaryRepository.save(createDiaryRequest.toEntity(member, createDiaryRequest));
+    }
+
+    public void updateDiary(Long diaryId, CreateDiaryRequest createDiaryRequest) {
+        Member member = getCurrentMemberId();
+        Diary diary = diaryRepository.findById(diaryId).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
+        diary.updateDiary(createDiaryRequest.getTitle(), createDiaryRequest.getContent());
+
     }
 
     public List<DiaryResponse> getDiaryByDate(String date) {
@@ -56,7 +54,7 @@ public class DiaryService {
 
     private Member getCurrentMemberId() {
         return memberRepository.findById(getMemberId())
-                .orElseThrow(() -> new CommonException(MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
     }
 
 }
