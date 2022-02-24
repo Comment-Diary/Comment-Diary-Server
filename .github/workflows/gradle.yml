@@ -53,6 +53,6 @@ jobs:
         aws s3 cp \
         --region ap-northeast-2 \
         --acl private \ 
-        ./$GITHUB_SHA.zip s3://jwyang-cicd-bucket/
+        ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
         
       
