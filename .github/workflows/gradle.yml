@@ -63,6 +63,7 @@ jobs:
         --acl private \
         ./comment-diary-build.zip s3://jwyang-cicd-bucket/
         
+    # Deploy    
     - name: Code Deploy
       run: |
           aws deploy create-deployment \
