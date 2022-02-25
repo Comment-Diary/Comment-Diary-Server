@@ -2,6 +2,7 @@ package com.commentdiary.src.diary.controller;
 
 import com.commentdiary.common.response.CommonResponse;
 import com.commentdiary.src.diary.dto.CreateDiaryRequest;
+import com.commentdiary.src.diary.dto.DiaryDetailResponse;
 import com.commentdiary.src.diary.dto.DiaryResponse;
 import com.commentdiary.src.diary.service.DiaryService;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +33,28 @@ public class DiaryController {
         return new CommonResponse<>(SUCCESS);
     }
 
-    @GetMapping("/search")
+    @DeleteMapping("/{diaryId}")
+    public CommonResponse<Void> deleteDiary(@PathVariable(value = "diaryId") long diaryId) {
+        diaryService.deleteDiary(diaryId);
+        return new CommonResponse<>(SUCCESS);
+    }
+
+    @GetMapping("/{diaryId}")
+    public CommonResponse<DiaryDetailResponse> getDetailDiary(@PathVariable(value = "diaryId") long diaryId) {
+        DiaryDetailResponse result = diaryService.getDetailDiary(diaryId);
+        return new CommonResponse<>(result);
+    }
+
+    @GetMapping("/my/all")
+    public CommonResponse<List<DiaryResponse>> getDiaryByAllDate() {
+        return new CommonResponse<>(diaryService.getAllDiary());
+    }
+
+    @GetMapping("/my")
     public CommonResponse<List<DiaryResponse>> getDiaryByDate(@RequestParam(value = "date") String date) {
         return new CommonResponse<>(diaryService.getDiaryByDate(date));
     }
+
 
 }
 
