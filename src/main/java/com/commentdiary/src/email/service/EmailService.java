@@ -9,6 +9,7 @@ import com.commentdiary.src.email.repository.EmailAuthRepository;
 import com.commentdiary.src.member.domain.Member;
 import com.commentdiary.src.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -23,7 +24,7 @@ import static com.commentdiary.common.exception.ErrorCode.*;
 
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class EmailService {
 
@@ -33,39 +34,47 @@ public class EmailService {
     private final MemberRepository memberRepository;
 
     @Async
+    @Transactional
     public void sendCode(EmailSendDto emailSendDto) {
         if (memberRepository.existsByEmail(emailSendDto.getEmail())) {
             throw new CommonException(DUPLICATED_EMAIL);
         }
 
-        int code = createCode();
-        String message = emailContentBuilder(code);
+        try {
+            int code = createCode();
+            String message = emailContentBuilder(code);
 
-        EmailSendDto temp = new EmailSendDto(emailSendDto.getEmail(), emailSendDto.getTitle(), message);
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-            messageHelper.setTo(temp.getEmail());
-            messageHelper.setSubject(temp.getTitle());
-            messageHelper.setText(temp.getMessage(), true);
-        };
+            EmailSendDto temp = new EmailSendDto(emailSendDto.getEmail(), emailSendDto.getTitle(), message);
+            MimeMessagePreparator messagePreparator = mimeMessage -> {
+                MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+                messageHelper.setTo(temp.getEmail());
+                messageHelper.setSubject(temp.getTitle());
+                messageHelper.setText(temp.getMessage(), true);
+            };
+            javaMailSender.send(messagePreparator);
 
-        javaMailSender.send(messagePreparator);
+            if  (emailAuthRepository.existsByEmail(emailSendDto.getEmail())) {
+                EmailAuth emailAuth = emailAuthRepository.findByEmail(emailSendDto.getEmail()).orElseThrow(() -> new CommonException(NOT_FOUND_EMAIL));
+                emailAuth.updateCode(code);
+            }
 
-        if  (emailAuthRepository.existsByEmail(emailSendDto.getEmail())) {
-            EmailAuth emailAuth = emailAuthRepository.findByEmail(emailSendDto.getEmail()).orElseThrow(() -> new IllegalArgumentException("Not Found"));
-            emailAuth.updateCode(code);
+            else {
+                emailAuthRepository.save(EmailAuth.builder()
+                        .email(emailSendDto.getEmail())
+                        .code(code)
+                        .build());
+            }
+        }
+        catch (MailException e) {
+            throw new CommonException(FAILED_TO_SEND_EMAIL);
         }
 
-        else {
-            emailAuthRepository.save(EmailAuth.builder()
-                    .email(emailSendDto.getEmail())
-                    .code(code)
-                    .build());
-        }
+
 
     }
 
     @Async
+    @Transactional
     public void sendPassword(EmailSendDto emailSendDto) {
 
         if (memberRepository.existsByEmail(emailSendDto.getEmail())) {
@@ -82,12 +91,12 @@ public class EmailService {
             };
             javaMailSender.send(messagePreparator);
 
-            Member member = memberRepository.findByEmail(emailSendDto.getEmail()).orElseThrow(() ->  new CommonException(MEMBER_NOT_FOUND));
+            Member member = memberRepository.findByEmail(emailSendDto.getEmail()).orElseThrow(() ->  new CommonException(NOT_FOUND_MEMBER));
             member.changePassword((new BCryptPasswordEncoder().encode(tempPassword)));
         }
 
         else {
-            throw new CommonException(ErrorCode.MEMBER_NOT_FOUND);
+            throw new CommonException(NOT_FOUND_MEMBER);
         }
     }
 

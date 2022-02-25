@@ -1,5 +1,6 @@
 package com.commentdiary.src.email.dto;
 
+import com.commentdiary.src.email.domain.EmailAuth;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
