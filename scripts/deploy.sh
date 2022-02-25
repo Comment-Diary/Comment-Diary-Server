@@ -30,4 +30,5 @@ echo "> Give authority to $JAR_NAME"
 
 chmod +x $JAR_NAME
 
+
 nohup java -jar $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
