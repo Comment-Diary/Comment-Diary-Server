@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.commentdiary.common.exception.ErrorCode.*;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -28,6 +28,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public void signUp(SignUpRequest signUpRequest) {
         if (memberRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new CommonException(DUPLICATED_EMAIL);
@@ -38,9 +39,10 @@ public class MemberService {
         }
     }
 
+    @Transactional
     public TokenResponse login(LoginRequest loginRequest) {
 
-        Member member = memberRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new CommonException(MEMBER_NOT_FOUND));
+        Member member = memberRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
         member.checkPassword(passwordEncoder, loginRequest.getPassword());
 
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
@@ -95,12 +97,14 @@ public class MemberService {
         return tokenResponse;
     }
 
+    @Transactional
     public void changePassword(ChangePasswordRequest changePasswordRequest) {
         if (changePasswordRequest.isSamePassword()) {
             getCurrentMemberId().changePassword((new BCryptPasswordEncoder().encode(changePasswordRequest.getPassword())));
         }
     }
 
+    @Transactional
     public void delete() {
         memberRepository.deleteById(getCurrentMemberId().getId());
     }
@@ -111,6 +115,7 @@ public class MemberService {
 
     private Member getCurrentMemberId() {
         return memberRepository.findById(getMemberId())
-                .orElseThrow(() -> new CommonException(MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
     }
+
 }

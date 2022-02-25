@@ -39,6 +39,11 @@ public class DiaryController {
         return new CommonResponse<>(SUCCESS);
     }
 
+    @GetMapping("/main")
+    public CommonResponse<List<DiaryDetailResponse>> getDiary(@RequestParam(value = "date") String date) {
+        return new CommonResponse<>(diaryService.getDiary(date));
+    }
+
     @GetMapping("/{diaryId}")
     public CommonResponse<DiaryDetailResponse> getDetailDiary(@PathVariable(value = "diaryId") long diaryId) {
         DiaryDetailResponse result = diaryService.getDetailDiary(diaryId);

@@ -32,5 +32,9 @@ public class Comment extends BaseTimeEntity {
     private String content;
 
     @Column(nullable = false)
-    private char likes;
+    private boolean isLike;
+
+    public boolean getIsLike() {
+        return this.isLike;
+    }
 }

@@ -17,14 +17,12 @@ public class CommonResponse<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
-    // 요청 성공
     public CommonResponse(T result) {
         this.code = SUCCESS.getCode();
         this.message = SUCCESS.getMessage();
         this.result = result;
     }
 
-    // 요청 실패
     public CommonResponse(CommonResponseStatus status) {
         this.code = status.getCode();
         this.message = status.getMessage();

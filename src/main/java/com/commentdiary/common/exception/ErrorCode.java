@@ -11,13 +11,19 @@ public enum ErrorCode {
     /* 400 BAD_REQUEST : 잘못된 요청 */
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
+    EXPIRED_TOKEN(UNAUTHORIZED, "만료된 jwt 토큰입니다."),
+    INVALID_TOKEN(UNAUTHORIZED, "유효하지 않은 토큰입니다."),
 
     /* 403 Forbidden : 요청이 서버에 의해 거부되었음 */
+    FAILED_TO_SEND_EMAIL(FORBIDDEN, "이메일 전송이 실패하였습니다."),
 
     /* 404 NOT_FOUND : Resource를 찾을 수 없음 */
-    MEMBER_NOT_FOUND(NOT_FOUND, "존재하지 않는 유저입니다."),
+    NOT_FOUND_MEMBER(NOT_FOUND, "존재하지 않는 유저입니다."),
+    NOT_FOUND_EMAIL(NOT_FOUND, "이메일을 찾을 수 없습니다."),
     NOT_MATCHED_CODE(NOT_FOUND, "인증 번호가 일치하지 않습니다."),
     INVALID_PASSWORD(NOT_FOUND, "비밀번호가 일치하지 않습니다"),
+    NOT_MATCHED_DIARY(NOT_FOUND, "일치하는 일기가 없습니다."),
+    NOT_FOUND_DIARY(NOT_FOUND, "일기를 찾을 수 없습니다."),
 
 
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */

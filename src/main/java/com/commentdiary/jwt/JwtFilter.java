@@ -1,5 +1,6 @@
 package com.commentdiary.jwt;
 
+import com.commentdiary.common.exception.CommonException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.ConnectException;
+
+import static com.commentdiary.common.exception.ErrorCode.INVALID_TOKEN;
 
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {

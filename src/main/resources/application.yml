@@ -1,4 +1,9 @@
 spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled=true:
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://jwyang-db.cbouqxcong3s.ap-northeast-2.rds.amazonaws.com/comment-diary-test?autoReconnect=true

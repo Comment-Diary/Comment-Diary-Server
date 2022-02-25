@@ -18,8 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.commentdiary.common.exception.ErrorCode.NOT_FOUND_MEMBER;
-import static com.commentdiary.common.exception.ErrorCode.NOT_FOUND_DIARY;
+import static com.commentdiary.common.exception.ErrorCode.*;
 
 @Service
 @Transactional
@@ -43,6 +42,14 @@ public class DiaryService {
     public void deleteDiary(long diaryId) {
         diaryRepository.findById(diaryId).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
         diaryRepository.deleteById(diaryId);
+    }
+
+    public List<DiaryDetailResponse> getDiary(String date) {
+        Long memberId = getMemberId();
+        List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContains(memberId, date);
+        return diaryList.stream()
+                .map(diary -> DiaryDetailResponse.of(diary))
+                .collect(Collectors.toList());
     }
 
     public DiaryDetailResponse getDetailDiary(long diaryId) {
