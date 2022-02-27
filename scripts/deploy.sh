@@ -1,34 +1,24 @@
 #!/bin/bash
+BUILD_JAR=$(ls /home/ec2-user/app/deploy/*.jar)
+JAR_NAME=$(basename $BUILD_JAR)
+echo "> build 파일명: $JAR_NAME" >> /home/ec2-user/app/deploy/deploy.log
 
-REPOSITORY=/home/ec2-user/app/deploy
+echo "> build 파일 복사" >> /home/ec2-user/app/deploy/deploy.log
+DEPLOY_PATH=/home/ec2-user/app/deploy
+cp $BUILD_JAR $DEPLOY_PATH
 
-echo "> Check running pid"
+echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ec2-user/app/deploy/deploy.log
+CURRENT_PID=$(pgrep -f $JAR_NAME)
 
-CURRENT_PID=$(pgrep -f Comment-Diary)
-
-echo "> CURRENT_PID"
-
-if [ -z $CURRENT_PID ]; then
-    echo "> Not shut down because there is not application running now."
+if [ -z $CURRENT_PID ]
+then
+  echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다." >> /home/ec2-user/app/deploy/deploy.log
 else
-    echo "> Kill -15 $CURRENT_PID"
-    kill -15 $CURRENT_PID
-    sleep 5
+  echo "> kill -15 $CURRENT_PID"
+  kill -15 $CURRENT_PID
+  sleep 5
 fi
 
-echo "> Deploy new application"
-
-echo "> Copy build file"
-
-cp $REPOSITORY/*.jar $REPOSITORY/jar/
-
-JAR_NAME=$(ls -tr $REPOSITORY/jar/*.jar | tail -n 1)
-
-echo "> JAR Name: $JAR_NAME"
-
-echo "> Give authority to $JAR_NAME"
-
-chmod +x $JAR_NAME
-
-
-nohup java -jar $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
+DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
+echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/app/deploy/deploy.log
+nohup java -jar $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>/home/ec2-user/app/deploy/deploy_err.log &
