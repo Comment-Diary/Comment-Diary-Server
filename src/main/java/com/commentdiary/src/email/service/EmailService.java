@@ -1,10 +1,9 @@
 package com.commentdiary.src.email.service;
 
 import com.commentdiary.common.exception.CommonException;
-import com.commentdiary.common.exception.ErrorCode;
 import com.commentdiary.src.email.domain.EmailAuth;
 import com.commentdiary.src.email.dto.ConfirmCodeResquest;
-import com.commentdiary.src.email.dto.EmailSendDto;
+import com.commentdiary.src.email.dto.EmailSend;
 import com.commentdiary.src.email.repository.EmailAuthRepository;
 import com.commentdiary.src.member.domain.Member;
 import com.commentdiary.src.member.repository.MemberRepository;
@@ -35,8 +34,8 @@ public class EmailService {
 
     @Async
     @Transactional
-    public void sendCode(EmailSendDto emailSendDto) {
-        if (memberRepository.existsByEmail(emailSendDto.getEmail())) {
+    public void sendCode(EmailSend emailSend) {
+        if (memberRepository.existsByEmail(emailSend.getEmail())) {
             throw new CommonException(DUPLICATED_EMAIL);
         }
 
@@ -44,23 +43,24 @@ public class EmailService {
             int code = createCode();
             String message = emailContentBuilder(code);
 
-            EmailSendDto temp = new EmailSendDto(emailSendDto.getEmail(), emailSendDto.getTitle(), message);
+            EmailSend temp = new EmailSend(emailSend.getEmail(), emailSend.getTitle(), message);
             MimeMessagePreparator messagePreparator = mimeMessage -> {
                 MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
                 messageHelper.setTo(temp.getEmail());
                 messageHelper.setSubject(temp.getTitle());
                 messageHelper.setText(temp.getMessage(), true);
             };
+
             javaMailSender.send(messagePreparator);
 
-            if  (emailAuthRepository.existsByEmail(emailSendDto.getEmail())) {
-                EmailAuth emailAuth = emailAuthRepository.findByEmail(emailSendDto.getEmail()).orElseThrow(() -> new CommonException(NOT_FOUND_EMAIL));
+            if  (emailAuthRepository.existsByEmail(emailSend.getEmail())) {
+                EmailAuth emailAuth = emailAuthRepository.findByEmail(emailSend.getEmail()).orElseThrow(() -> new CommonException(NOT_FOUND_EMAIL));
                 emailAuth.updateCode(code);
             }
 
             else {
                 emailAuthRepository.save(EmailAuth.builder()
-                        .email(emailSendDto.getEmail())
+                        .email(emailSend.getEmail())
                         .code(code)
                         .build());
             }
@@ -75,14 +75,14 @@ public class EmailService {
 
     @Async
     @Transactional
-    public void sendPassword(EmailSendDto emailSendDto) {
+    public void sendPassword(EmailSend emailSend) {
 
-        if (memberRepository.existsByEmail(emailSendDto.getEmail())) {
+        if (memberRepository.existsByEmail(emailSend.getEmail())) {
 
             String tempPassword = getTempPassword();
             String message = emailContentBuilder(tempPassword);
 
-            EmailSendDto temp = new EmailSendDto(emailSendDto.getEmail(), emailSendDto.getTitle(), message);
+            EmailSend temp = new EmailSend(emailSend.getEmail(), emailSend.getTitle(), message);
             MimeMessagePreparator messagePreparator = mimeMessage -> {
                 MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
                 messageHelper.setTo(temp.getEmail());
@@ -91,7 +91,7 @@ public class EmailService {
             };
             javaMailSender.send(messagePreparator);
 
-            Member member = memberRepository.findByEmail(emailSendDto.getEmail()).orElseThrow(() ->  new CommonException(NOT_FOUND_MEMBER));
+            Member member = memberRepository.findByEmail(emailSend.getEmail()).orElseThrow(() ->  new CommonException(NOT_FOUND_MEMBER));
             member.changePassword((new BCryptPasswordEncoder().encode(tempPassword)));
         }
 

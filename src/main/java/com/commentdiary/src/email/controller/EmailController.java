@@ -1,13 +1,10 @@
 package com.commentdiary.src.email.controller;
 
-import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.common.response.CommonResponse;
 import com.commentdiary.src.email.dto.ConfirmCodeResquest;
 import com.commentdiary.src.email.dto.EmailAddrRequest;
-import com.commentdiary.src.email.dto.EmailSendDto;
+import com.commentdiary.src.email.dto.EmailSend;
 import com.commentdiary.src.email.service.EmailService;
-import com.commentdiary.src.member.dto.ChangePasswordRequest;
-import com.commentdiary.src.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +19,7 @@ public class EmailController {
 
     @GetMapping("")
     public CommonResponse<Void> sendCode(@RequestParam(value = "email") EmailAddrRequest emailAddrRequest) {
-        emailService.sendCode(new EmailSendDto(emailAddrRequest.getEmail(),"회원가입 인증 메일", ""));
+        emailService.sendCode(new EmailSend(emailAddrRequest.getEmail(),"회원가입 인증 메일", ""));
         return new CommonResponse<>(SUCCESS);
     }
 
@@ -34,7 +31,7 @@ public class EmailController {
 
     @GetMapping("/password")
     public CommonResponse<Void> sendPassword(@RequestParam(value = "email") EmailAddrRequest emailAddrRequest) {
-        emailService.sendPassword(new EmailSendDto(emailAddrRequest.getEmail(),"임시 비밀번호 발급", ""));
+        emailService.sendPassword(new EmailSend(emailAddrRequest.getEmail(),"임시 비밀번호 발급", ""));
         return new CommonResponse<>(SUCCESS);
     }
 

@@ -1,6 +1,5 @@
 package com.commentdiary.src.email.dto;
 
-import com.commentdiary.src.email.domain.EmailAuth;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class EmailSendDto {
+public class EmailSend {
     private String email;
     private String title;
     private String message;
