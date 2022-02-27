@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY=/home/ec2-user/app/dev
+REPOSITORY=/home/ec2-user/app/deploy
 
 echo "> Check running pid"
 
@@ -29,5 +29,6 @@ echo "> JAR Name: $JAR_NAME"
 echo "> Give authority to $JAR_NAME"
 
 chmod +x $JAR_NAME
+
 
 nohup java -jar $JAR_NAME > $REPOSITORY/nohup.out 2>&1 &
