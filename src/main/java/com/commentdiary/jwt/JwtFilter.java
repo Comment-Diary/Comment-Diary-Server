@@ -1,9 +1,22 @@
 package com.commentdiary.jwt;
 
 import com.commentdiary.common.exception.CommonException;
+import com.commentdiary.common.exception.ErrorCode;
+import com.commentdiary.common.exception.ErrorResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.micrometer.core.ipc.http.HttpSender;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.Response;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -19,8 +32,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.ConnectException;
 
-import static com.commentdiary.common.exception.ErrorCode.INVALID_TOKEN;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -36,11 +49,16 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // 1. Request Header 에서 토큰을 꺼냄
         String jwt = resolveToken(request);
+        System.out.println("doFilterInternal");
 
         // 2. validateToken 으로 토큰 유효성 검사
         // 정상 토큰이면 해당 토큰으로 Authentication 을 가져와서 SecurityContext 에 저장
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+        boolean provider = tokenProvider.validateToken(request, jwt);
+        System.out.println("provided : " + provider);
+
+        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(request, jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
+            log.info(authentication + " Authentication 생성");
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
