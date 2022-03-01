@@ -19,7 +19,6 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final TokenProvider tokenProvider;
-    private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
@@ -43,8 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // token을 사용하는 방식이기 때문에 csrf를 disable합니다.
                 .csrf().disable()
 
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-
                 // exception handling 할 때 우리가 만든 클래스를 추가
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -65,9 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/members").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers("/api/v1/members/login").permitAll()
+                .anyRequest().authenticated()
 
-                // JwtFilter 를 addFilterBefore 로 등록했던
+                // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig로 security 적용
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
     }
