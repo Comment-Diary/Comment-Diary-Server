@@ -27,8 +27,8 @@ public class MemberController {
 
     @PostMapping("/login")
     public CommonResponse<TokenResponse> login(@RequestBody LoginRequest loginRequest) {
-        TokenResponse tokenResponse = memberService.login(loginRequest);
-        return new CommonResponse<>(tokenResponse);
+        TokenResponse result = memberService.login(loginRequest);
+        return new CommonResponse<>(result);
     }
 
     @PatchMapping("")
@@ -42,6 +42,4 @@ public class MemberController {
         memberService.delete();
         return new CommonResponse<>(SUCCESS);
     }
-
-
 }
