@@ -1,18 +1,20 @@
 package com.commentdiary.common.exception;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import static org.springframework.http.HttpStatus.*;
 
 @Getter
 public enum ErrorCode {
 
-
     /* 400 BAD_REQUEST : 잘못된 요청 */
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
-    EXPIRED_TOKEN(UNAUTHORIZED, "만료된 jwt 토큰입니다."),
-    INVALID_TOKEN(UNAUTHORIZED, "유효하지 않은 토큰입니다."),
+    WRONG_TOKEN_SIGNATURE(UNAUTHORIZED, "잘못된 JWT 서명입니다."),
+    EXPIRED_TOKEN(UNAUTHORIZED, "만료된 JWT 토큰입니다."),
+    UNSUPPORTED_TOKEN(UNAUTHORIZED, "지원되지 않는 JWT 토큰입니다."),
+    WRONG_TOKEN(UNAUTHORIZED, "JWT 토큰이 잘못되었습니다."),
 
     /* 403 Forbidden : 요청이 서버에 의해 거부되었음 */
     FAILED_TO_SEND_EMAIL(FORBIDDEN, "이메일 전송이 실패하였습니다."),
@@ -25,10 +27,8 @@ public enum ErrorCode {
     NOT_MATCHED_DIARY(NOT_FOUND, "일치하는 일기가 없습니다."),
     NOT_FOUND_DIARY(NOT_FOUND, "일기를 찾을 수 없습니다."),
 
-
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
     DUPLICATED_EMAIL(CONFLICT, "이미 가입되어 있는 이메일입니다."),
-
     SERVER_ERROR(INTERNAL_SERVER_ERROR,"서버 내부에 에러가 발생했습니다." )
 
 
