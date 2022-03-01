@@ -6,6 +6,7 @@ import com.commentdiary.src.comment.domain.Comment;
 import com.commentdiary.src.comment.repository.CommentRepository;
 import com.commentdiary.src.diary.domain.Diary;
 import com.commentdiary.src.diary.dto.CreateDiaryRequest;
+import com.commentdiary.src.diary.dto.CreateDiaryResponse;
 import com.commentdiary.src.diary.dto.DiaryDetailResponse;
 import com.commentdiary.src.diary.dto.DiaryResponse;
 import com.commentdiary.src.diary.repository.DiaryRepository;
@@ -29,9 +30,10 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
     private final CommentRepository commentRepository;
 
-    public void createDiary(CreateDiaryRequest createDiaryRequest) {
+    public CreateDiaryResponse createDiary(CreateDiaryRequest createDiaryRequest) {
         Member member = getCurrentMemberId();
-        diaryRepository.save(createDiaryRequest.toEntity(member, createDiaryRequest));
+        long id = diaryRepository.save(createDiaryRequest.toEntity(member, createDiaryRequest)).getId();
+        return new CreateDiaryResponse(id);
     }
 
     public void updateDiary(long diaryId, CreateDiaryRequest createDiaryRequest) {
@@ -52,7 +54,7 @@ public class DiaryService {
                 .collect(Collectors.toList());
     }
 
-    public DiaryDetailResponse getDetailDiary(long diaryId) {
+    public DiaryDetailResponse getOneDiary(long diaryId) {
         Long memberId = getMemberId();
         Diary diary = diaryRepository.findByIdAndMemberId(diaryId, memberId).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
         return DiaryDetailResponse.of(diary);

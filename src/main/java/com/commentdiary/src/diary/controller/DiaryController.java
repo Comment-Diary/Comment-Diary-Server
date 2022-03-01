@@ -2,6 +2,7 @@ package com.commentdiary.src.diary.controller;
 
 import com.commentdiary.common.response.CommonResponse;
 import com.commentdiary.src.diary.dto.CreateDiaryRequest;
+import com.commentdiary.src.diary.dto.CreateDiaryResponse;
 import com.commentdiary.src.diary.dto.DiaryDetailResponse;
 import com.commentdiary.src.diary.dto.DiaryResponse;
 import com.commentdiary.src.diary.service.DiaryService;
@@ -22,9 +23,9 @@ public class DiaryController {
     private final DiaryService diaryService;
 
     @PostMapping("")
-    public CommonResponse<Void> createDiary(@RequestBody CreateDiaryRequest createDiaryRequest) {
-        diaryService.createDiary(createDiaryRequest);
-        return new CommonResponse<>(SUCCESS);
+    public CommonResponse<CreateDiaryResponse> createDiary(@RequestBody CreateDiaryRequest createDiaryRequest) {
+        CreateDiaryResponse result = diaryService.createDiary(createDiaryRequest);
+        return new CommonResponse<>(result);
     }
 
     @PatchMapping("/{diaryId}")
@@ -40,13 +41,14 @@ public class DiaryController {
     }
 
     @GetMapping("/main")
-    public CommonResponse<List<DiaryDetailResponse>> getDiary(@RequestParam(value = "date") String date) {
-        return new CommonResponse<>(diaryService.getDiary(date));
+    public CommonResponse<List<DiaryDetailResponse>> getAllMainDiary(@RequestParam(value = "date") String date) {
+        List<DiaryDetailResponse> result = diaryService.getDiary(date);
+        return new CommonResponse<>(result);
     }
 
     @GetMapping("/{diaryId}")
-    public CommonResponse<DiaryDetailResponse> getDetailDiary(@PathVariable(value = "diaryId") long diaryId) {
-        DiaryDetailResponse result = diaryService.getDetailDiary(diaryId);
+    public CommonResponse<DiaryDetailResponse> getOneDiary(@PathVariable(value = "diaryId") long diaryId) {
+        DiaryDetailResponse result = diaryService.getOneDiary(diaryId);
         return new CommonResponse<>(result);
     }
 
