@@ -62,6 +62,5 @@ public class DiaryController {
         return new CommonResponse<>(diaryService.getDiaryByDate(date));
     }
 
-
 }
 
