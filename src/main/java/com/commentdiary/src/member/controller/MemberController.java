@@ -38,8 +38,8 @@ public class MemberController {
         return new CommonResponse<>(SUCCESS);
     }
 
-    @PostMapping("/logout")
-    public CommonResponse<Void> logout(@RequestHeader(value = "REFRESH-TOKEN") String refreshToken) {
+    @DeleteMapping("/logout")
+    public CommonResponse<Void> logout() {
         memberService.logout();
         return new CommonResponse<>(SUCCESS);
     }
