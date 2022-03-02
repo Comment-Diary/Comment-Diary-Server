@@ -15,6 +15,7 @@ public enum ErrorCode {
     EXPIRED_TOKEN(UNAUTHORIZED, "만료된 JWT 토큰입니다."),
     UNSUPPORTED_TOKEN(UNAUTHORIZED, "지원되지 않는 JWT 토큰입니다."),
     WRONG_TOKEN(UNAUTHORIZED, "JWT 토큰이 잘못되었습니다."),
+    EXPIRED_REFRESH_TOKEN(UNAUTHORIZED, "만료된 Refresh JWT 토큰입니다."),
     INVALID_REFRESH_TOKEN(UNAUTHORIZED, "Refresh 토큰이 유효하지 않습니다."),
 
 

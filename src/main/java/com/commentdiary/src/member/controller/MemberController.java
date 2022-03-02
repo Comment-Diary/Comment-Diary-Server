@@ -31,9 +31,16 @@ public class MemberController {
         return new CommonResponse<>(result);
     }
 
+
     @PatchMapping("")
     public CommonResponse<Void> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
         memberService.changePassword(changePasswordRequest);
+        return new CommonResponse<>(SUCCESS);
+    }
+
+    @PostMapping("/logout")
+    public CommonResponse<Void> logout(@RequestHeader(value = "REFRESH-TOKEN") String refreshToken) {
+        memberService.logout();
         return new CommonResponse<>(SUCCESS);
     }
 

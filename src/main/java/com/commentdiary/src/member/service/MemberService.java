@@ -1,6 +1,7 @@
 package com.commentdiary.src.member.service;
 
 import com.commentdiary.common.exception.CommonException;
+import com.commentdiary.common.response.CommonResponse;
 import com.commentdiary.jwt.*;
 import com.commentdiary.src.member.domain.Member;
 import com.commentdiary.src.member.domain.RefreshToken;
@@ -76,6 +77,13 @@ public class MemberService {
     }
 
     @Transactional
+    public void logout() {
+        String id = String.valueOf(getMemberId());
+        refreshTokenRepository.findById(id).orElseThrow(() -> new CommonException(ALREADY_LOGOUT));
+        refreshTokenRepository.deleteById(id);
+    }
+
+    @Transactional
     public void delete() {
         memberRepository.deleteById(getCurrentMemberId().getId());
     }
@@ -83,7 +91,13 @@ public class MemberService {
     @Transactional
     public TokenResponse reissue(String accessToken, String refreshToken) {
         // 1. Refresh Token 검증
-        if (!tokenProvider.validateRefreshToken(refreshToken)) {
+
+        String validate = tokenProvider.validateRefreshToken(refreshToken);
+
+        if (validate == "Expired") {
+            throw new CommonException(EXPIRED_REFRESH_TOKEN);
+        }
+        else if (validate == "Exception") {
             throw new CommonException(INVALID_REFRESH_TOKEN);
         }
 

@@ -112,16 +112,17 @@ public class TokenProvider {
     }
 
     // jwt 토큰의 유효성 검증, 만료일자 초과한 토큰, exception 이면 return false;
-    public boolean validateRefreshToken(String token) {
+    public String validateRefreshToken(String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return !claims.getBody().getExpiration().before(new Date());
+            return "True";
         } catch(ExpiredJwtException e) {
             log.info("만료된 Refresh JWT 토큰입니다.");
+            return "Expired";
         } catch (Exception e) {
             log.info("유효하지 않은 Refresh JWT 토큰입니다.");
+            return "Exception";
         }
-        return false;
     }
 
     private Claims parseClaims(String accessToken) {
