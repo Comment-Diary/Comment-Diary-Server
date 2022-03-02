@@ -61,9 +61,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/members").permitAll()
+                .antMatchers("/api/v1/members/sign-up").permitAll()
                 .antMatchers("/api/v1/members/login").permitAll()
                 .antMatchers("/api/v1/members/reissue").permitAll()
+                .antMatchers("/api/v1/email/**").permitAll()
                 .anyRequest().authenticated()
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig로 security 적용

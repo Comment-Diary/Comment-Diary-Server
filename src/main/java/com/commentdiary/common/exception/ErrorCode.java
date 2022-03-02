@@ -20,7 +20,7 @@ public enum ErrorCode {
 
 
     /* 403 Forbidden : 요청이 서버에 의해 거부되었음 */
-    FAILED_TO_SEND_EMAIL(FORBIDDEN, "이메일 전송이 실패하였습니다."),
+    FAILED_TO_SEND_EMAIL(FORBIDDEN, "이메일 전송에 실패하였습니다."),
 
     /* 404 NOT_FOUND : Resource를 찾을 수 없음 */
     NOT_FOUND_MEMBER(NOT_FOUND, "존재하지 않는 유저입니다."),

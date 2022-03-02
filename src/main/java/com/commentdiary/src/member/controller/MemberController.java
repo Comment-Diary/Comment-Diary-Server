@@ -19,7 +19,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("")
+    @PostMapping("/sign-up")
     public CommonResponse<Void> signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         memberService.signUp(signUpRequest);
         return new CommonResponse<>(SUCCESS);
