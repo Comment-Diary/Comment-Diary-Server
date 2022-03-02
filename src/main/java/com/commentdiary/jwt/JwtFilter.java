@@ -49,16 +49,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // 1. Request Header 에서 토큰을 꺼냄
         String jwt = resolveToken(request);
-        System.out.println("doFilterInternal");
 
         // 2. validateToken 으로 토큰 유효성 검사
         // 정상 토큰이면 해당 토큰으로 Authentication 을 가져와서 SecurityContext 에 저장
-        boolean provider = tokenProvider.validateToken(request, jwt);
-        System.out.println("provided : " + provider);
 
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(request, jwt)) {
             Authentication authentication = tokenProvider.getAuthentication(jwt);
-            log.info(authentication + " Authentication 생성");
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 

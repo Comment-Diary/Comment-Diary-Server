@@ -28,8 +28,9 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;            // 30분
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60;            // 30분
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60;
+//    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
 
     private final Key key;
 
@@ -106,6 +107,19 @@ public class TokenProvider {
         } catch (IllegalArgumentException e) {
             log.info("JWT 토큰이 잘못되었습니다.");
             request.setAttribute("exception", "IllegalArgumentException");
+        }
+        return false;
+    }
+
+    // jwt 토큰의 유효성 검증, 만료일자 초과한 토큰, exception 이면 return false;
+    public boolean validateRefreshToken(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return !claims.getBody().getExpiration().before(new Date());
+        } catch(ExpiredJwtException e) {
+            log.info("만료된 Refresh JWT 토큰입니다.");
+        } catch (Exception e) {
+            log.info("유효하지 않은 Refresh JWT 토큰입니다.");
         }
         return false;
     }

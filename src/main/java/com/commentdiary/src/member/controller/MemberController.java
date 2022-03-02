@@ -42,4 +42,10 @@ public class MemberController {
         memberService.delete();
         return new CommonResponse<>(SUCCESS);
     }
+
+    @PostMapping("/reissue")
+    public CommonResponse<TokenResponse> reissue(@RequestHeader(value = "X-AUTH-TOKEN") String accessToken, @RequestHeader(value = "REFRESH-TOKEN") String refreshToken) {
+        TokenResponse reuslt = memberService.reissue(accessToken, refreshToken);
+        return new CommonResponse<>(reuslt);
+    }
 }

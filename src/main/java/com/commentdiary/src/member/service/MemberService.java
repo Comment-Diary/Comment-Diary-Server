@@ -80,6 +80,36 @@ public class MemberService {
         memberRepository.deleteById(getCurrentMemberId().getId());
     }
 
+    @Transactional
+    public TokenResponse reissue(String accessToken, String refreshToken) {
+        // 1. Refresh Token 검증
+        if (!tokenProvider.validateRefreshToken(refreshToken)) {
+            throw new CommonException(INVALID_REFRESH_TOKEN);
+        }
+
+        // 2. Access Token 에서 Member ID 가져오기
+        Authentication authentication = tokenProvider.getAuthentication(accessToken);
+
+        // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
+        RefreshToken getRefreshToken = refreshTokenRepository.findById(authentication.getName())
+                .orElseThrow(() -> new CommonException(ALREADY_LOGOUT));
+
+        // 4. Refresh Token 일치하는지 검사
+        if (!getRefreshToken.getValue().equals(refreshToken)) {
+            throw new CommonException(NOT_MATCHED_TOKEN);
+        }
+
+        // 5. 새로운 토큰 생성
+        TokenResponse tokenResponse = tokenProvider.generateTokenDto(authentication);
+
+        // 6. 저장소 정보 업데이트
+        RefreshToken newRefreshToken = getRefreshToken.updateValue(tokenResponse.getRefreshToken());
+        refreshTokenRepository.save(newRefreshToken);
+
+        // 토큰 발급
+        return tokenResponse;
+    }
+
     private Long getMemberId() {
         return SecurityUtil.getCurrentMemberId();
     }
