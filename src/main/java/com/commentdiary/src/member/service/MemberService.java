@@ -77,10 +77,10 @@ public class MemberService {
     }
 
     @Transactional
-    public void logout() {
-        String id = String.valueOf(getMemberId());
-        refreshTokenRepository.findById(id).orElseThrow(() -> new CommonException(ALREADY_LOGOUT));
-        refreshTokenRepository.deleteById(id);
+    public void logout(String accessToken) {
+        Authentication authentication = tokenProvider.getAuthentication(accessToken);
+        refreshTokenRepository.findById(authentication.getName()).orElseThrow(() -> new CommonException(ALREADY_LOGOUT));
+        refreshTokenRepository.deleteById(authentication.getName());
     }
 
     @Transactional

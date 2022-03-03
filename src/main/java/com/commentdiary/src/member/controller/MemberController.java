@@ -39,8 +39,8 @@ public class MemberController {
     }
 
     @DeleteMapping("/logout")
-    public CommonResponse<Void> logout() {
-        memberService.logout();
+    public CommonResponse<Void> logout(@RequestHeader(value = "X-AUTH-TOKEN") String accessToken) {
+        memberService.logout(accessToken);
         return new CommonResponse<>(SUCCESS);
     }
 
