@@ -58,11 +58,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
+                // 로그인, 회원가입, 이메일 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
+                // 자동 로그인에서 access token 만료 시 logout -> reissue 무한 루프 때문에 permitAll 설정
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/members/sign-up").permitAll()
                 .antMatchers("/api/v1/members/login").permitAll()
+                .antMatchers("/api/v1/members/logout").permitAll()
                 .antMatchers("/api/v1/members/reissue").permitAll()
                 .antMatchers("/api/v1/email/**").permitAll()
                 .anyRequest().authenticated()
