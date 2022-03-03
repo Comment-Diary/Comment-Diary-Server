@@ -7,23 +7,26 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CommentResponse {
+public class CreateCommentResponse {
 
     private long id;
     private String content;
+    private String date;
     private boolean isLike;
 
     @Builder
-    public CommentResponse(long id, String content, boolean isLike) {
+    public CreateCommentResponse(long id, String content, String date, boolean isLike) {
         this.id = id;
         this.content = content;
+        this.date = date;
         this.isLike = isLike;
     }
 
-    public static CommentResponse of(Comment comment) {
-        return CommentResponse.builder()
+    public static CreateCommentResponse of(Comment comment) {
+        return CreateCommentResponse.builder()
                 .id(comment.getId())
                 .content(comment.getContent())
+                .date(comment.getDate())
                 .isLike(comment.getIsLike())
                 .build();
     }

@@ -12,15 +12,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentRequest {
+public class CreateCommentRequest {
     private long diaryId;
     private String content;
+    private String date;
 
-    public Comment toEntity(Member member, Diary diary, CommentRequest commentRequest) {
+    public Comment toEntity(Member member, Diary diary, CreateCommentRequest createCommentRequest) {
         return Comment.builder()
                 .member(member)
                 .diary(diary)
-                .content(commentRequest.content)
+                .content(createCommentRequest.content)
+                .date(createCommentRequest.date)
                 .isLike(false)
                 .build();
     }

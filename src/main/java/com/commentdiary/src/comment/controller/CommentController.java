@@ -1,12 +1,15 @@
 package com.commentdiary.src.comment.controller;
 
 import com.commentdiary.common.response.CommonResponse;
-import com.commentdiary.src.comment.dto.CommentRequest;
+import com.commentdiary.src.comment.dto.CreateCommentRequest;
 import com.commentdiary.src.comment.dto.LikeResponse;
+import com.commentdiary.src.comment.dto.MyCommentResponse;
 import com.commentdiary.src.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.commentdiary.common.response.CommonResponseStatus.SUCCESS;
 
@@ -19,8 +22,8 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("")
-    public CommonResponse<Void> createComment(@RequestBody CommentRequest commentRequest) {
-        commentService.createComment(commentRequest);
+    public CommonResponse<Void> createComment(@RequestBody CreateCommentRequest createCommentRequest) {
+        commentService.createComment(createCommentRequest);
         return new CommonResponse<>(SUCCESS);
     }
 
@@ -31,7 +34,8 @@ public class CommentController {
     }
 
     @GetMapping("")
-    public CommonResponse<Void> getMyComment() {
-        return new CommonResponse<>(SUCCESS);
+    public CommonResponse<List<MyCommentResponse>> getMyComment() {
+        List<MyCommentResponse> result = commentService.getMyComment();
+        return new CommonResponse<>(result);
     }
 }
