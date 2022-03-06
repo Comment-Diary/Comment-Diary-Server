@@ -35,6 +35,9 @@ public enum ErrorCode {
 
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
     DUPLICATED_EMAIL(CONFLICT, "이미 가입되어 있는 이메일입니다."),
+    ALREADY_LIKE(CONFLICT, "이미 좋아요를 눌렀습니다."),
+
+
     SERVER_ERROR(INTERNAL_SERVER_ERROR,"서버 내부에 에러가 발생했습니다." )
 
 
