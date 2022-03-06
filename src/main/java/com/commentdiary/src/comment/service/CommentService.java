@@ -43,8 +43,10 @@ public class CommentService {
             throw new CommonException(ALREADY_LIKE);
         }
         comment.likeComment();
-        Member member = comment.getMember();
-        member.plusFiveTemp();
+        if (comment.getMember() != null) {
+            Member member = comment.getMember();
+            member.plusFiveTemp();
+        }
         return LikeResponse.of(comment);
     }
 
