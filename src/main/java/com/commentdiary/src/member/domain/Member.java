@@ -35,6 +35,8 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private double temp;
+
 //    @Column(nullable = false)
 //    private char pushYn;
 //
@@ -56,5 +58,9 @@ public class Member extends BaseTimeEntity {
 
     public void changePassword(String password) {
         this.password = password;
+    }
+
+    public void plusFiveTemp() {
+        this.temp += 0.5;
     }
 }

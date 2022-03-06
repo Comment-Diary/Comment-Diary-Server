@@ -31,7 +31,7 @@ public class CommentService {
 
     @Transactional
     public void createComment(CreateCommentRequest commentRequest) {
-        Member member = getCurrentMemberId();
+        Member member = getMyMember();
         Diary diary = diaryRepository.findById(commentRequest.getDiaryId()).orElseThrow(() -> new CommonException(NOT_MATCHED_DIARY));
         commentRepository.save(commentRequest.toEntity(member, diary, commentRequest));
     }
@@ -39,13 +39,18 @@ public class CommentService {
     @Transactional
     public LikeResponse like(long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CommonException(NOT_MATCHED_COMMENT));
+        if (comment.getIsLike()) {
+            throw new CommonException(ALREADY_LIKE);
+        }
         comment.likeComment();
+        Member member = comment.getMember();
+        member.plusFiveTemp();
         return LikeResponse.of(comment);
     }
 
     @Transactional
     public List<MyCommentResponse> getMyComment() {
-        Member member = getCurrentMemberId();
+        Member member = getMyMember();
         List<Comment> commentList = commentRepository.findAllByMemberId(member.getId());
         return commentList.stream()
                 .map(comment -> MyCommentResponse.of(comment))
@@ -56,7 +61,7 @@ public class CommentService {
         return SecurityUtil.getCurrentMemberId();
     }
 
-    private Member getCurrentMemberId() {
+    private Member getMyMember() {
         return memberRepository.findById(getMemberId())
                 .orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
     }
