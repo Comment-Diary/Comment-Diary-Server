@@ -51,11 +51,6 @@ public class Comment extends BaseTimeEntity {
     }
 
     public void likeComment() {
-        if (this.getIsLike()) {
-            this.isLike = false;
-        }
-        else {
-            this.isLike = true;
-        }
+        this.isLike = true;
     }
 }
