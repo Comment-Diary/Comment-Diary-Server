@@ -5,7 +5,6 @@ import com.commentdiary.common.exception.ErrorCode;
 import com.commentdiary.src.member.domain.Member;
 import com.commentdiary.src.member.domain.enums.Role;
 import lombok.*;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.Email;

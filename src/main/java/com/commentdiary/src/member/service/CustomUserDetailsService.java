@@ -1,7 +1,7 @@
 package com.commentdiary.src.member.service;
 
-import com.commentdiary.src.member.domain.Member;
 import com.commentdiary.src.member.repository.MemberRepository;
+import com.commentdiary.src.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -2,12 +2,10 @@ package com.commentdiary.src.member.dto;
 
 import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.common.exception.ErrorCode;
-import com.commentdiary.src.member.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

@@ -1,13 +1,12 @@
 package com.commentdiary.src.member.service;
 
 import com.commentdiary.common.exception.CommonException;
-import com.commentdiary.common.response.CommonResponse;
 import com.commentdiary.jwt.*;
+import com.commentdiary.src.member.repository.MemberRepository;
+import com.commentdiary.src.member.repository.RefreshTokenRepository;
 import com.commentdiary.src.member.domain.Member;
 import com.commentdiary.src.member.domain.RefreshToken;
 import com.commentdiary.src.member.dto.*;
-import com.commentdiary.src.member.repository.MemberRepository;
-import com.commentdiary.src.member.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import static com.commentdiary.common.exception.ErrorCode.*;
 

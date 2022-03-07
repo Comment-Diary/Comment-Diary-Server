@@ -38,7 +38,7 @@ public class Member extends BaseTimeEntity {
     private double temp;
 
 //    @Column(nullable = false)
-    private char pushYn;
+//    private char pushYn;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(10) default 'ACTIVE'", nullable = false)
