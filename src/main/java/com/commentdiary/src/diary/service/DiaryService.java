@@ -2,7 +2,6 @@ package com.commentdiary.src.diary.service;
 
 import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.jwt.SecurityUtil;
-import com.commentdiary.src.comment.domain.Comment;
 import com.commentdiary.src.comment.repository.CommentRepository;
 import com.commentdiary.src.diary.domain.Diary;
 import com.commentdiary.src.diary.dto.CreateDiaryRequest;
@@ -71,8 +70,6 @@ public class DiaryService {
     public List<DiaryResponse> getAllDiary() {
         Long memberId = getMemberId();
         List<Diary> diaryList = diaryRepository.findByMemberId(memberId);
-
-
         return diaryList.stream()
                 .map(diary -> DiaryResponse.of(diary))
                 .collect(Collectors.toList());

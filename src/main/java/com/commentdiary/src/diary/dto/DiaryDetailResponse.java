@@ -18,14 +18,16 @@ public class DiaryDetailResponse {
     private String content;
     private String date;
     private char deliveryYn;
+    private int commnetCnt;
     private List<CreateCommentResponse> commentResponseList;
 
-    public DiaryDetailResponse(long id, String title, String content, String date, char deliveryYn, List<CreateCommentResponse> commentResponseList){
+    public DiaryDetailResponse(long id, String title, String content, String date, char deliveryYn, int commentCnt, List<CreateCommentResponse> commentResponseList){
         this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;
         this.deliveryYn = deliveryYn;
+        this.commnetCnt = commentResponseList.size();
         this.commentResponseList = commentResponseList;
     }
 
