@@ -3,9 +3,7 @@ package com.commentdiary.src.comment.service;
 import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.jwt.SecurityUtil;
 import com.commentdiary.src.comment.domain.Comment;
-import com.commentdiary.src.comment.dto.CreateCommentRequest;
-import com.commentdiary.src.comment.dto.LikeResponse;
-import com.commentdiary.src.comment.dto.MyCommentResponse;
+import com.commentdiary.src.comment.dto.*;
 import com.commentdiary.src.comment.repository.CommentRepository;
 import com.commentdiary.src.diary.domain.Diary;
 import com.commentdiary.src.diary.repository.DiaryRepository;
@@ -30,10 +28,11 @@ public class CommentService {
     private final DiaryRepository diaryRepository;
 
     @Transactional
-    public void createComment(CreateCommentRequest commentRequest) {
+    public CreateCommentResponse createComment(CreateCommentRequest createCommentRequest) {
         Member member = getMyMember();
-        Diary diary = diaryRepository.findById(commentRequest.getDiaryId()).orElseThrow(() -> new CommonException(NOT_MATCHED_DIARY));
-        commentRepository.save(commentRequest.toEntity(member, diary, commentRequest));
+        Diary diary = diaryRepository.findById(createCommentRequest.getDiaryId()).orElseThrow(() -> new CommonException(NOT_MATCHED_DIARY));
+        commentRepository.save(createCommentRequest.toEntity(member, diary, createCommentRequest));
+        return CreateCommentResponse.of(createCommentRequest.getContent(), createCommentRequest.getDate());
     }
 
     @Transactional
