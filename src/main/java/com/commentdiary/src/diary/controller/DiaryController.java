@@ -42,7 +42,7 @@ public class DiaryController {
 
     @GetMapping("/main")
     public CommonResponse<List<DiaryDetailResponse>> getAllMainDiary(@RequestParam(value = "date") String date) {
-        List<DiaryDetailResponse> result = diaryService.getDiary(date);
+        List<DiaryDetailResponse> result = diaryService.getAllMainDiary(date);
         return new CommonResponse<>(result);
     }
 
@@ -54,7 +54,7 @@ public class DiaryController {
 
     @GetMapping("/my/all")
     public CommonResponse<List<DiaryResponse>> getDiaryByAllDate() {
-        return new CommonResponse<>(diaryService.getAllDiary());
+        return new CommonResponse<>(diaryService.getDiaryByAllDate());
     }
 
     @GetMapping("/my")

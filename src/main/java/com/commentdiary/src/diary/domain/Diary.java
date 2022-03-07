@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @DynamicInsert
 @Entity
+@Builder
 public class Diary extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,20 +34,8 @@ public class Diary extends BaseTimeEntity {
 
     private char deliveryYn;
 
-    private boolean isDeleted;
-
     @OneToMany(mappedBy = "diary")
     private List<Comment> comments = new ArrayList<>();
-
-    @Builder
-    public Diary(Member member, String title, String content, String date, char deliveryYn, boolean isDeleted) {
-        this.member = member;
-        this.title = title;
-        this.content = content;
-        this.date = date;
-        this.deliveryYn = deliveryYn;
-        this.isDeleted = isDeleted;
-    }
 
     public void updateDiary(String title, String content) {
         this.title = title;

@@ -1,6 +1,6 @@
 package com.commentdiary.src.diary.dto;
 
-import com.commentdiary.src.comment.dto.CreateCommentResponse;
+import com.commentdiary.src.comment.dto.CommentResponse;
 import com.commentdiary.src.diary.domain.Diary;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
@@ -21,9 +21,9 @@ public class DiaryResponse {
     private char deliveryYn;
     private int commentCnt;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<CreateCommentResponse> commentResponseList;
+    private List<CommentResponse> commentResponseList;
 
-    public DiaryResponse(long id, String title, String content, String date, char deliveryYn, int commentCnt, List<CreateCommentResponse> commentResponseList){
+    public DiaryResponse(long id, String title, String content, String date, char deliveryYn, int commentCnt, List<CommentResponse> commentResponseList){
         this.id = id;
         this.title = title;
         this.content = content;
@@ -41,7 +41,7 @@ public class DiaryResponse {
                 .deliveryYn(diary.getDeliveryYn())
                 .commentResponseList(diary.getComments()
                                         .stream()
-                                        .map(comment -> CreateCommentResponse.of(comment))
+                                        .map(comment -> CommentResponse.of(comment))
                                         .collect(Collectors.toList()))
                 .build();
     }

@@ -24,7 +24,6 @@ public class CreateDiaryRequest {
                 .content(request.getContent())
                 .date(request.date)
                 .deliveryYn(request.getDeliveryYn())
-                .isDeleted(false)
                 .build();
     }
 

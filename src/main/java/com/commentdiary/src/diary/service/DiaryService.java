@@ -45,7 +45,7 @@ public class DiaryService {
         diaryRepository.deleteById(diaryId);
     }
 
-    public List<DiaryDetailResponse> getDiary(String date) {
+    public List<DiaryDetailResponse> getAllMainDiary(String date) {
         Long memberId = getMemberId();
         List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContains(memberId, date);
         return diaryList.stream()
@@ -59,17 +59,17 @@ public class DiaryService {
         return DiaryDetailResponse.of(diary);
     }
 
-    public List<DiaryResponse> getDiaryByDate(String date) {
+    public List<DiaryResponse> getDiaryByAllDate() {
         Long memberId = getMemberId();
-        List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContains(memberId, date);
+        List<Diary> diaryList = diaryRepository.findByMemberId(memberId);
         return diaryList.stream()
                 .map(diary -> DiaryResponse.of(diary))
                 .collect(Collectors.toList());
     }
 
-    public List<DiaryResponse> getAllDiary() {
+    public List<DiaryResponse> getDiaryByDate(String date) {
         Long memberId = getMemberId();
-        List<Diary> diaryList = diaryRepository.findByMemberId(memberId);
+        List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContains(memberId, date);
         return diaryList.stream()
                 .map(diary -> DiaryResponse.of(diary))
                 .collect(Collectors.toList());
