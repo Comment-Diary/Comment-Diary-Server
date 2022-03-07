@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.commentdiary.common.exception.ErrorCode.NOT_FOUND_MEMBER;
+import static com.commentdiary.common.exception.ErrorCode.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -32,17 +32,17 @@ public class ReportService {
     @Transactional
     public void diaryReport(DiaryReportRequest diaryReportRequest) {
         Member reporter = getMyMember();
-        Diary diary = diaryRepository.findById(diaryReportRequest.getDiaryId()).orElseThrow();
-        Member reported = memberRepository.findById(diary.getMember().getId()).orElseThrow();
+        Diary diary = diaryRepository.findById(diaryReportRequest.getDiaryId()).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
+        Member reported = memberRepository.findById(diary.getMember().getId()).orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
         diaryReportRepository.save(diaryReportRequest.toEntity(reporter, reported, diary));
-
     }
 
     @Transactional
     public void commentReport(CommentReportRequest commentReportRequest) {
         Member reporter = getMyMember();
-        Comment comment = commentRepository.findById(commentReportRequest.getCommentId()).orElseThrow();
-        Member reported = memberRepository.findById(comment.getMember().getId()).orElseThrow();
+        Comment comment = commentRepository.findById(commentReportRequest.getCommentId()).orElseThrow(() -> new CommonException(NOT_MATCHED_COMMENT));
+        comment.blockedComment();
+        Member reported = memberRepository.findById(comment.getMember().getId()).orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
         commentReportRepository.save(commentReportRequest.toEntity(reporter, reported, comment));
     }
 
