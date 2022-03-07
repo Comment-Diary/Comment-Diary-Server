@@ -43,7 +43,6 @@ public class MemberService {
 
     @Transactional
     public TokenResponse login(LoginRequest loginRequest) {
-
         Member member = memberRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
         member.checkPassword(passwordEncoder, loginRequest.getPassword());
 
@@ -70,6 +69,12 @@ public class MemberService {
     }
 
     @Transactional
+    public MyPageResponse myPage() {
+        Member member = getCurrentMemberId();
+        return MyPageResponse.of(member);
+    }
+
+    @Transactional
     public void changePassword(ChangePasswordRequest changePasswordRequest) {
         if (changePasswordRequest.isSamePassword()) {
             getCurrentMemberId().changePassword((new BCryptPasswordEncoder().encode(changePasswordRequest.getPassword())));
@@ -91,7 +96,6 @@ public class MemberService {
     @Transactional
     public TokenResponse reissue(String accessToken, String refreshToken) {
         // 1. Refresh Token 검증
-
         String validate = tokenProvider.validateRefreshToken(refreshToken);
 
         if (validate == "Expired") {

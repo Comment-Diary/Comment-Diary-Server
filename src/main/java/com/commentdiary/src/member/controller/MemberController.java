@@ -31,6 +31,11 @@ public class MemberController {
         return new CommonResponse<>(result);
     }
 
+    @GetMapping("")
+    public CommonResponse<MyPageResponse> myPage() {
+        MyPageResponse result = memberService.myPage();
+        return new CommonResponse<>(result);
+    }
 
     @PatchMapping("")
     public CommonResponse<Void> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
