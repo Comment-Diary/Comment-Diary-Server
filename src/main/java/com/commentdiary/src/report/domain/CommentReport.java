@@ -36,6 +36,7 @@ public class CommentReport extends BaseTimeEntity {
     @JoinColumn(name = "reported_id")
     private Member reported;
 
+    @Lob
     private String content;
 
     @Enumerated(EnumType.STRING)
