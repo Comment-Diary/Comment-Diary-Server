@@ -23,7 +23,7 @@ public class SignUpRequest {
 
     @NotBlank(message = "비밀번호를 입력해 주세요.")
     @Size(min = 8, max = 20,message = "비밀번호는 8자 이상, 20자 이하입니다.")
-    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$", message = "비밀번호는 숫자, 영어, 특수 문자를 포함해야 합니다.")
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$", message = "비밀번호는 숫자, 영어, 특수 문자를 포함한 8 ~ 20자여야 합니다.")
     private String password;
 
     @NotBlank(message = "비밀번호를 입력해 주세요.")

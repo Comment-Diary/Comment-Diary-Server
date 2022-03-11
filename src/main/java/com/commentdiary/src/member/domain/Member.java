@@ -44,6 +44,8 @@ public class Member extends BaseTimeEntity {
     @Column(columnDefinition = "varchar(10) default 'ACTIVE'", nullable = false)
     private MemberStatus status;
 
+
+
     public void checkPassword(PasswordEncoder passwordEncoder, String password) {
         if (!passwordEncoder.matches(password, this.password)) {
             throw new CommonException(ErrorCode.INVALID_PASSWORD);
