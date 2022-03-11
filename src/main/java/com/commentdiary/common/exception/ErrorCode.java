@@ -32,6 +32,7 @@ public enum ErrorCode {
     ALREADY_LOGOUT(NOT_FOUND, "로그아웃된 유저입니다."),
     NOT_MATCHED_TOKEN(NOT_FOUND, "JWT 토큰 정보가 일치하지 않습니다"),
     NOT_MATCHED_COMMENT(NOT_FOUND, "일치하는 코멘트가 없습니다."),
+    NOT_FOUND_DELIVERY(NOT_FOUND, "전달된 일기가 존재하지 않습니다."),
 
     /* 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재 */
     DUPLICATED_EMAIL(CONFLICT, "이미 가입되어 있는 이메일입니다."),
