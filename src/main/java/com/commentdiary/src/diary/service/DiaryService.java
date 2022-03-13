@@ -27,7 +27,6 @@ public class DiaryService {
 
     private final MemberRepository memberRepository;
     private final DiaryRepository diaryRepository;
-    private final CommentRepository commentRepository;
 
     public CreateDiaryResponse createDiary(CreateDiaryRequest createDiaryRequest) {
         Member member = getCurrentMemberId();
@@ -47,7 +46,7 @@ public class DiaryService {
 
     public List<DiaryDetailResponse> getAllMainDiary(String date) {
         Long memberId = getMemberId();
-        List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContains(memberId, date);
+        List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContainsOrderByDateAsc(memberId, date);
         return diaryList.stream()
                 .map(diary -> DiaryDetailResponse.of(diary))
                 .collect(Collectors.toList());
@@ -55,13 +54,13 @@ public class DiaryService {
 
     public DiaryDetailResponse getOneDiary(long diaryId) {
         Long memberId = getMemberId();
-        Diary diary = diaryRepository.findByIdAndMemberId(diaryId, memberId).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
+        Diary diary = diaryRepository.findByIdAndMemberIdOrderByDateAsc(diaryId, memberId).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
         return DiaryDetailResponse.of(diary);
     }
 
     public List<DiaryResponse> getDiaryByAllDate() {
         Long memberId = getMemberId();
-        List<Diary> diaryList = diaryRepository.findByMemberId(memberId);
+        List<Diary> diaryList = diaryRepository.findByMemberIdOrderByDateAsc(memberId);
         return diaryList.stream()
                 .map(diary -> DiaryResponse.of(diary))
                 .collect(Collectors.toList());
@@ -69,7 +68,7 @@ public class DiaryService {
 
     public List<DiaryResponse> getDiaryByDate(String date) {
         Long memberId = getMemberId();
-        List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContains(memberId, date);
+        List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContainsOrderByDateAsc(memberId, date);
         return diaryList.stream()
                 .map(diary -> DiaryResponse.of(diary))
                 .collect(Collectors.toList());
