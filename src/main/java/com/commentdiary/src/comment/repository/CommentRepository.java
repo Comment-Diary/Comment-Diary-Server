@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findAllByDiaryId(long diaryId);
-    List<Comment> findAllByMemberId(long memberId);
+    List<Comment> findAllByMemberIdOrderByDateAsc(long memberId);
+    List<Comment> findAllByMemberIdAndDateContainsOrderByDateAsc(long memberId, String date);
 }

@@ -44,6 +44,13 @@ public class CommentService {
         comment.likeComment();
         if (comment.getMember() != null) {
             Member member = comment.getMember();
+
+            System.out.println("코멘트 달아 준 사람의 총 코멘트 개수: " + comment.getMember().getComments().size() );
+            int totalCmt = comment.getMember().getComments().size();
+
+            System.out.println("코멘트 달아 준 사람의 좋아요 코멘트 개수: " + comment.getMember().getComments().stream().filter(c -> c.getIsLike()).count() );
+            long likeCmt = comment.getMember().getComments().stream().filter(c -> c.getIsLike()).count();
+
             member.plusFiveTemp();
         }
         return LikeResponse.of(comment);
@@ -52,7 +59,16 @@ public class CommentService {
     @Transactional
     public List<MyCommentResponse> getMyComment() {
         Member member = getMyMember();
-        List<Comment> commentList = commentRepository.findAllByMemberId(member.getId());
+        List<Comment> commentList = commentRepository.findAllByMemberIdOrderByDateAsc(member.getId());
+        return commentList.stream()
+                .map(comment -> MyCommentResponse.of(comment))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<MyCommentResponse> getMyCommentByDate(String date) {
+        Member member = getMyMember();
+        List<Comment> commentList = commentRepository.findAllByMemberIdAndDateContainsOrderByDateAsc(member.getId(), date);
         return commentList.stream()
                 .map(comment -> MyCommentResponse.of(comment))
                 .collect(Collectors.toList());

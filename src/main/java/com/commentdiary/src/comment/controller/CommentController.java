@@ -29,9 +29,16 @@ public class CommentController {
         return new CommonResponse<>(result);
     }
 
-    @GetMapping("")
+    @GetMapping("/all")
     public CommonResponse<List<MyCommentResponse>> getMyComment() {
         List<MyCommentResponse> result = commentService.getMyComment();
         return new CommonResponse<>(result);
     }
+
+    @GetMapping("")
+    public CommonResponse<List<MyCommentResponse>> getMyCommentByDate(@RequestParam(value = "date") String date) {
+        List<MyCommentResponse> result = commentService.getMyCommentByDate(date);
+        return new CommonResponse<>(result);
+    }
+
 }
