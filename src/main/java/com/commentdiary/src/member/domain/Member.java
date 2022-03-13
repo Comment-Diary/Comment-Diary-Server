@@ -3,6 +3,7 @@ package com.commentdiary.src.member.domain;
 import com.commentdiary.common.domain.BaseTimeEntity;
 import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.common.exception.ErrorCode;
+import com.commentdiary.src.comment.domain.Comment;
 import com.commentdiary.src.member.domain.enums.MemberStatus;
 import com.commentdiary.src.member.domain.enums.Role;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -37,8 +40,11 @@ public class Member extends BaseTimeEntity {
 
     private double temp;
 
-//    @Column(nullable = false)
-//    private char pushYn;
+    @OneToMany(mappedBy = "member")
+    private List<Comment> comments = new ArrayList<Comment>();
+
+    @Column(columnDefinition = "varchar(1) default 'Y'", nullable = false)
+    private char pushYn;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(10) default 'ACTIVE'", nullable = false)

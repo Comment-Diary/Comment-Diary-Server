@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.commentdiary.common.exception.ErrorCode.INVALID_EMAIL_ADDRESS;
 import static com.commentdiary.common.response.CommonResponseStatus.SUCCESS;
 
 @Validated
@@ -31,7 +32,7 @@ public class MemberController {
             for(FieldError error : result.getFieldErrors()) {
                 errorMap.put(error.getField(), error.getDefaultMessage());
             }
-            return new CommonResponse(errorMap);
+            return new CommonResponse(INVALID_EMAIL_ADDRESS);
         }
         memberService.signUp(signUpRequest);
         return new CommonResponse<>(SUCCESS);
