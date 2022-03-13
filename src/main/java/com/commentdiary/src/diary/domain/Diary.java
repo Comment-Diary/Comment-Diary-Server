@@ -34,16 +34,15 @@ public class Diary extends BaseTimeEntity {
 
     private char deliveryYn;
 
+    @Column(columnDefinition = "varchar(1) default 'N'", nullable = false)
     private char tempYn;
 
     @OneToMany(mappedBy = "diary")
     private List<Comment> comments = new ArrayList<>();
 
-    public void updateDiary(String title, String content) {
+    public void updateDiary(String title, String content, char tempYn) {
         this.title = title;
         this.content = content;
-        if (this.tempYn == 'Y')
-            this.tempYn = 'N';
+        this.tempYn = tempYn;
     }
-
 }

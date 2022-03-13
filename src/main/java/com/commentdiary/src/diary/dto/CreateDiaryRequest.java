@@ -23,7 +23,7 @@ public class CreateDiaryRequest {
                 .member(member)
                 .title(request.getTitle())
                 .content(request.getContent())
-                .date(request.date)
+                .date(request.getDate())
                 .deliveryYn(request.getDeliveryYn())
                 .tempYn(request.getTempYn())
                 .build();
