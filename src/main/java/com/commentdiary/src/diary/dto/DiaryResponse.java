@@ -1,5 +1,6 @@
 package com.commentdiary.src.diary.dto;
 
+import com.commentdiary.src.comment.domain.enums.CommentStatus;
 import com.commentdiary.src.comment.dto.CommentResponse;
 import com.commentdiary.src.diary.domain.Diary;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -41,6 +42,7 @@ public class DiaryResponse {
                 .deliveryYn(diary.getDeliveryYn())
                 .commentResponseList(diary.getComments()
                                         .stream()
+                                        .filter(comment -> comment.getStatus().equals(CommentStatus.ACTIVE))
                                         .map(comment -> CommentResponse.of(comment))
                                         .collect(Collectors.toList()))
                 .build();
