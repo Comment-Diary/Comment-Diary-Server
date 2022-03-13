@@ -2,7 +2,6 @@ package com.commentdiary.src.diary.service;
 
 import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.jwt.SecurityUtil;
-import com.commentdiary.src.comment.repository.CommentRepository;
 import com.commentdiary.src.diary.domain.Diary;
 import com.commentdiary.src.diary.dto.CreateDiaryRequest;
 import com.commentdiary.src.diary.dto.CreateDiaryResponse;
@@ -36,7 +35,7 @@ public class DiaryService {
 
     public void updateDiary(long diaryId, CreateDiaryRequest createDiaryRequest) {
         Diary diary = diaryRepository.findById(diaryId).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
-        diary.updateDiary(createDiaryRequest.getTitle(), createDiaryRequest.getContent(), createDiaryRequest.getTempYn());
+        diary.updateDiary(createDiaryRequest.getTitle(), createDiaryRequest.getContent());
     }
 
     public void deleteDiary(long diaryId) {

@@ -39,10 +39,11 @@ public class Diary extends BaseTimeEntity {
     @OneToMany(mappedBy = "diary")
     private List<Comment> comments = new ArrayList<>();
 
-    public void updateDiary(String title, String content, char tempYn) {
+    public void updateDiary(String title, String content) {
         this.title = title;
         this.content = content;
-        this.tempYn = tempYn;
+        if (this.tempYn == 'Y')
+            this.tempYn = 'N';
     }
 
 }
