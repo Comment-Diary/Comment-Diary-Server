@@ -16,6 +16,7 @@ public class CreateDiaryRequest {
     private String content;
     private String date;
     private char deliveryYn;
+    private char tempYn;
 
     public Diary toEntity(Member member, CreateDiaryRequest request) {
         return Diary.builder()
@@ -24,6 +25,7 @@ public class CreateDiaryRequest {
                 .content(request.getContent())
                 .date(request.date)
                 .deliveryYn(request.getDeliveryYn())
+                .tempYn(request.getTempYn())
                 .build();
     }
 

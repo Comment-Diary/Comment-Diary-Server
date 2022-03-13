@@ -36,7 +36,7 @@ public class DiaryService {
 
     public void updateDiary(long diaryId, CreateDiaryRequest createDiaryRequest) {
         Diary diary = diaryRepository.findById(diaryId).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
-        diary.updateDiary(createDiaryRequest.getTitle(), createDiaryRequest.getContent());
+        diary.updateDiary(createDiaryRequest.getTitle(), createDiaryRequest.getContent(), createDiaryRequest.getTempYn());
     }
 
     public void deleteDiary(long diaryId) {
@@ -62,6 +62,7 @@ public class DiaryService {
         Long memberId = getMemberId();
         List<Diary> diaryList = diaryRepository.findByMemberIdOrderByDateAsc(memberId);
         return diaryList.stream()
+                .filter(diary -> diary.getTempYn() == 'N')
                 .map(diary -> DiaryResponse.of(diary))
                 .collect(Collectors.toList());
     }
@@ -70,6 +71,7 @@ public class DiaryService {
         Long memberId = getMemberId();
         List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContainsOrderByDateAsc(memberId, date);
         return diaryList.stream()
+                .filter(diary -> diary.getTempYn() == 'N')
                 .map(diary -> DiaryResponse.of(diary))
                 .collect(Collectors.toList());
     }

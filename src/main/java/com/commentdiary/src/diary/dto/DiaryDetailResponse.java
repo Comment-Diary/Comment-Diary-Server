@@ -21,15 +21,17 @@ public class DiaryDetailResponse {
     private String content;
     private String date;
     private char deliveryYn;
+    private char tempYn;
     private int commentCnt;
     private List<CommentResponse> commentResponseList;
 
-    public DiaryDetailResponse(long id, String title, String content, String date, char deliveryYn, List<CommentResponse> commentResponseList){
+    public DiaryDetailResponse(long id, String title, String content, String date, char deliveryYn, char tempYn, List<CommentResponse> commentResponseList){
         this.id = id;
         this.title = title;
         this.content = content;
         this.date = date;
         this.deliveryYn = deliveryYn;
+        this.tempYn = tempYn;
         this.commentCnt = commentResponseList.size();
         this.commentResponseList = commentResponseList;
     }
@@ -41,6 +43,7 @@ public class DiaryDetailResponse {
                 .content(diary.getContent())
                 .date(diary.getDate())
                 .deliveryYn(diary.getDeliveryYn())
+                .tempYn(diary.getTempYn())
                 .commentResponseList(diary.getComments()
                         .stream()
                         .filter(comment -> comment.getStatus().equals(CommentStatus.ACTIVE))

@@ -71,6 +71,7 @@ public class DiaryController {
 
     /**
      * 일기 모아보기 (검색 필터: 전체)
+     * TODO: -> 코멘트 내용도 리턴하는 걸로 해야 됨, tempYn 필터 걸러서 tempYn = N인 것만.
      * 내가 쓴 일기 전체 id, 제목, 내용, 코멘트 개수 리턴
      */
     @GetMapping("/my/all")
