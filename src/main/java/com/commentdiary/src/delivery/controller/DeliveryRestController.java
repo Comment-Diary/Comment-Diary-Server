@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.commentdiary.common.response.CommonResponseStatus.SUCCESS;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/delivery")
@@ -24,5 +22,10 @@ public class DeliveryRestController {
     public CommonResponse<DeliveryResponse> getDeliveredDiary(@RequestParam(name = "date") String date) {
         DeliveryResponse result = deliveryService.getDeliveredDiary(date);
         return new CommonResponse<>(result);
+    }
+
+    @GetMapping("/test")
+    public void test() {
+        deliveryService.delivery();
     }
 }

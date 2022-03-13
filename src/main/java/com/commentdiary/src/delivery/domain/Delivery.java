@@ -1,6 +1,7 @@
 package com.commentdiary.src.delivery.domain;
 
 import com.commentdiary.common.domain.BaseTimeEntity;
+import com.commentdiary.src.delivery.domain.enums.DeliveryStatus;
 import com.commentdiary.src.diary.domain.Diary;
 import com.commentdiary.src.member.domain.Member;
 import lombok.AllArgsConstructor;
@@ -32,9 +33,9 @@ public class Delivery extends BaseTimeEntity {
 
     private String date;
 
-    public void deliveryDiary(Member receiver, Diary diary, String date) {
-        this.receiver = receiver;
-        this.diary = diary;
-        this.date = date;
-    }
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(10) default 'ACTIVE'", nullable = false)
+    private DeliveryStatus status;
+
+    public void blockedDiary() { this.status = DeliveryStatus.BLOCKED; }
 }

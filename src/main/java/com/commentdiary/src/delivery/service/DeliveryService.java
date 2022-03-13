@@ -3,6 +3,8 @@ package com.commentdiary.src.delivery.service;
 import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.jwt.SecurityUtil;
 import com.commentdiary.src.delivery.domain.Delivery;
+import com.commentdiary.src.delivery.domain.enums.DeliveryStatus;
+import com.commentdiary.src.delivery.dto.DeliveryRequest;
 import com.commentdiary.src.delivery.dto.DeliveryResponse;
 import com.commentdiary.src.delivery.repository.DeliveryRepository;
 import com.commentdiary.src.diary.domain.Diary;
@@ -31,8 +33,37 @@ public class DeliveryService {
     @Transactional
     public DeliveryResponse getDeliveredDiary(String date) {
         Member member = getMyMember();
-        Delivery delivery = deliveryRepository.findByReceiverIdAndDateContains(member.getId(), date).orElseThrow(() -> new CommonException(NOT_FOUND_DELIVERY));
+
+        Delivery delivery = deliveryRepository.findByReceiverIdAndDateContains(member.getId(), date)
+                .filter(d -> d.getStatus().equals(DeliveryStatus.ACTIVE))
+                .orElseThrow(() -> new CommonException(NOT_FOUND_DELIVERY));
         return DeliveryResponse.of(delivery.getDiary(), member);
+    }
+
+    @Transactional
+    public void delivery() {
+        DeliveryRequest deliveryRequest = new DeliveryRequest();
+
+        Date today = new Date();
+        Date yesterday = new Date(today.getTime()+(1000*60*60*24*-1));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
+
+        // 어제 일기를 찾아와서, 오늘 전달하는데, 전달 테이블에는 오늘 날짜를 저장해야 됨. 클라에서 오늘 날짜가 들어온다.
+        List<Member> members = memberRepository.findAll();
+        List<Diary> diaries = diaryRepository.findAllByDeliveryYnIsAndDateContains('Y', simpleDateFormat.format(yesterday));
+
+        int idx = 0;
+
+        for (int i = 0; i < members.size(); i++) {
+            if (members.get(i).getId() == diaries.get(idx).getMember().getId()) {
+                idx = (idx + 1) % diaries.size();
+                if(diaries.size() == 1) {
+                    continue;
+                }
+            }
+            deliveryRepository.save(deliveryRequest.toEntity(members.get(i), diaries.get(idx), simpleDateFormat.format(today)));
+            idx = (idx + 1) % diaries.size();
+        }
     }
 
     private Long getMemberId() {
