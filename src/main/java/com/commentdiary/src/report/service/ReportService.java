@@ -4,6 +4,9 @@ import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.jwt.SecurityUtil;
 import com.commentdiary.src.comment.domain.Comment;
 import com.commentdiary.src.comment.repository.CommentRepository;
+import com.commentdiary.src.delivery.domain.Delivery;
+import com.commentdiary.src.delivery.domain.enums.DeliveryStatus;
+import com.commentdiary.src.delivery.repository.DeliveryRepository;
 import com.commentdiary.src.diary.domain.Diary;
 import com.commentdiary.src.diary.repository.DiaryRepository;
 import com.commentdiary.src.member.domain.Member;
@@ -28,21 +31,32 @@ public class ReportService {
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
     private final DiaryRepository diaryRepository;
+    private final DeliveryRepository deliveryRepository;
 
     @Transactional
     public void diaryReport(DiaryReportRequest diaryReportRequest) {
         Member reporter = getMyMember();
-        Diary diary = diaryRepository.findById(diaryReportRequest.getDiaryId()).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
-        Member reported = memberRepository.findById(diary.getMember().getId()).orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
-        diaryReportRepository.save(diaryReportRequest.toEntity(reporter, reported, diary));
+        Diary diary = diaryRepository.findById(diaryReportRequest.getDiaryId())
+                .orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
+
+        Delivery delivery = deliveryRepository.findByDiaryIdAndReceiverId(diaryReportRequest.getDiaryId(), reporter.getId())
+                .orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
+
+        delivery.blockedDiary();
+
+        Member reported = memberRepository.findById(diary.getMember().getId())
+                .orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
+        diaryReportRepository.save(diaryReportRequest.toEntity(reporter, reported, delivery));
     }
 
     @Transactional
     public void commentReport(CommentReportRequest commentReportRequest) {
         Member reporter = getMyMember();
-        Comment comment = commentRepository.findById(commentReportRequest.getCommentId()).orElseThrow(() -> new CommonException(NOT_MATCHED_COMMENT));
+        Comment comment = commentRepository.findById(commentReportRequest.getCommentId())
+                .orElseThrow(() -> new CommonException(NOT_MATCHED_COMMENT));
         comment.blockedComment();
-        Member reported = memberRepository.findById(comment.getMember().getId()).orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
+        Member reported = memberRepository.findById(comment.getMember().getId())
+                .orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
         commentReportRepository.save(commentReportRequest.toEntity(reporter, reported, comment));
     }
 
