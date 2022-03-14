@@ -31,6 +31,7 @@ public class DiaryResponse {
         this.date = date;
         this.deliveryYn = deliveryYn;
         this.commentCnt = commentResponseList.size();
+        this.commentResponseList = commentResponseList;
     }
 
     public static DiaryResponse of(Diary diary) {
