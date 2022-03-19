@@ -38,7 +38,7 @@ public class Diary extends BaseTimeEntity {
     private char tempYn;
 
     @OneToMany(mappedBy = "diary")
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<Comment>();
 
     public void updateDiary(String title, String content, char tempYn) {
         this.title = title;
