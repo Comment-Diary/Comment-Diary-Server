@@ -1,6 +1,7 @@
 package com.commentdiary.src.comment.service;
 
 import com.commentdiary.common.exception.CommonException;
+import com.commentdiary.common.firebase.service.FcmService;
 import com.commentdiary.jwt.SecurityUtil;
 import com.commentdiary.src.comment.domain.Comment;
 import com.commentdiary.src.comment.dto.*;
@@ -32,6 +33,7 @@ public class CommentService {
         Member member = getMyMember();
         Diary diary = diaryRepository.findById(createCommentRequest.getDiaryId()).orElseThrow(() -> new CommonException(NOT_MATCHED_DIARY));
         commentRepository.save(createCommentRequest.toEntity(member, diary, createCommentRequest));
+
         return CreateCommentResponse.of(createCommentRequest.getContent(), createCommentRequest.getDate());
     }
 
