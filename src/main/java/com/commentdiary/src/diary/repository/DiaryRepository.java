@@ -14,5 +14,5 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     void deleteById(Long id);
 
-    List<Diary> findAllByDeliveryYnIsAndDateContains(char deliveryYn, String date);
+    List<Diary> findAllByDeliveryYnIsAndDateContainsAndMemberIsNotNull(char deliveryYn, String date);
 }
