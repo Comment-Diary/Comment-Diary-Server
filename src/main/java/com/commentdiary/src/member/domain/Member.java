@@ -38,7 +38,7 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private double temp;
+    private double temperature;
 
     @OneToMany(mappedBy = "member")
     private List<Comment> comments = new ArrayList<Comment>();
@@ -49,7 +49,6 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(10) default 'ACTIVE'", nullable = false)
     private MemberStatus status;
-
 
 
     public void checkPassword(PasswordEncoder passwordEncoder, String password) {
@@ -63,6 +62,6 @@ public class Member extends BaseTimeEntity {
     }
 
     public void plusFiveTemp() {
-        this.temp += 0.5;
+        this.temperature += 0.5;
     }
 }

@@ -34,6 +34,8 @@ public class SignUpRequest {
         return Member.builder()
                 .email(email)
                 .password(new BCryptPasswordEncoder().encode(password))
+                .pushYn('Y')
+                .temperature(36.5)
                 .role(Role.ROLE_USER)
                 .build();
     }
