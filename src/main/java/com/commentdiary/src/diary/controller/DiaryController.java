@@ -51,7 +51,6 @@ public class DiaryController {
 
     /**
      * 일기 메인 페이지 조회
-     * 특정 달의 일기 id, 제목, 내용, 코멘트 리턴
      */
     @GetMapping("/main")
     public CommonResponse<List<DiaryDetailResponse>> getAllMainDiary(@RequestParam(value = "date") String date) {
@@ -71,8 +70,6 @@ public class DiaryController {
 
     /**
      * 일기 모아보기 (검색 필터: 전체)
-     * TODO: -> 코멘트 내용도 리턴하는 걸로 해야 됨, tempYn 필터 걸러서 tempYn = N인 것만.
-     * 내가 쓴 일기 전체 id, 제목, 내용, 코멘트 개수 리턴
      */
     @GetMapping("/my/all")
     public CommonResponse<List<DiaryResponse>> getDiaryByAllDate() {
@@ -81,7 +78,6 @@ public class DiaryController {
 
     /**
      * 일기 모아보기 (검색 필터: 특정 달)
-     * 특정 달 일기의 id, 제목, 내용, 코멘트 개수
      */
     @GetMapping("/my")
     public CommonResponse<List<DiaryResponse>> getDiaryByDate(@RequestParam(value = "date") String date) {
