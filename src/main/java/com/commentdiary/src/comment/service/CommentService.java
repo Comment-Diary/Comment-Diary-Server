@@ -1,7 +1,6 @@
 package com.commentdiary.src.comment.service;
 
 import com.commentdiary.common.exception.CommonException;
-import com.commentdiary.common.firebase.service.FcmService;
 import com.commentdiary.jwt.SecurityUtil;
 import com.commentdiary.src.comment.domain.Comment;
 import com.commentdiary.src.comment.dto.*;
