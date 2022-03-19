@@ -10,17 +10,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MyPageResponse {
     private String email;
-    private double temp;
+    private double temperature;
 
-    public MyPageResponse(String email, double temp) {
+    public MyPageResponse(String email, double temperature) {
         this.email = email;
-        this.temp = temp;
+        this.temperature = temperature;
     }
 
     public static MyPageResponse of(Member member) {
         return MyPageResponse.builder()
                 .email(member.getEmail())
-                .temp(member.getTemp())
+                .temperature(member.getTemperature())
                 .build();
     }
 }
