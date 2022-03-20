@@ -44,6 +44,7 @@ public class DiaryDetailResponse {
                 .date(diary.getDate())
                 .deliveryYn(diary.getDeliveryYn())
                 .tempYn(diary.getTempYn())
+                .commentCnt(diary.getComments().size())
                 .commentResponseList(diary.getComments()
                         .stream()
                         .filter(comment -> comment.getStatus().equals(CommentStatus.ACTIVE))
