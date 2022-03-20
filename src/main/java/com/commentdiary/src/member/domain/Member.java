@@ -61,7 +61,7 @@ public class Member extends BaseTimeEntity {
         this.password = password;
     }
 
-    public void plusFiveTemp() {
-        this.temperature += 0.5;
+    public void plusFiveTemp(long likeCmt, int totalCmt) {
+        this.temperature += (double) likeCmt / totalCmt * 0.8;
     }
 }
