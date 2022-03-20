@@ -45,14 +45,9 @@ public class CommentService {
         comment.likeComment();
         if (comment.getMember() != null) {
             Member member = comment.getMember();
-
-            System.out.println("코멘트 달아 준 사람의 총 코멘트 개수: " + comment.getMember().getComments().size() );
             int totalCmt = comment.getMember().getComments().size();
-
-            System.out.println("코멘트 달아 준 사람의 좋아요 코멘트 개수: " + comment.getMember().getComments().stream().filter(c -> c.getIsLike()).count() );
             long likeCmt = comment.getMember().getComments().stream().filter(c -> c.getIsLike()).count();
-
-            member.plusFiveTemp();
+            member.plusFiveTemp(likeCmt, totalCmt);
         }
         return LikeResponse.of(comment);
     }
