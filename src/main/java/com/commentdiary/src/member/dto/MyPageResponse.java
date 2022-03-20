@@ -20,7 +20,7 @@ public class MyPageResponse {
     public static MyPageResponse of(Member member) {
         return MyPageResponse.builder()
                 .email(member.getEmail())
-                .temperature(member.getTemperature())
+                .temperature(Math.round(member.getTemperature() * 10) / 10.0)
                 .build();
     }
 }
