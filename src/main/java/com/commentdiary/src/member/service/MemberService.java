@@ -44,6 +44,13 @@ public class MemberService {
         Member member = memberRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
         member.checkPassword(passwordEncoder, loginRequest.getPassword());
 
+        System.out.println(member.getStatus());
+        System.out.println(member.getStatus().getDescription());
+
+        if (member.getStatus().getDescription().equals("비활성")) {
+            throw new CommonException(BLOCKED_USER);
+        }
+
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = loginRequest.toAuthentication();
 

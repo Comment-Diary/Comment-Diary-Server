@@ -22,6 +22,9 @@ public enum ErrorCode {
 
     /* 403 Forbidden : 요청이 서버에 의해 거부되었음 */
     FAILED_TO_SEND_EMAIL(FORBIDDEN, "이메일 전송에 실패하였습니다."),
+    FCM_SERVER_ERROR(FORBIDDEN, "푸시 메시지 전송에 실패하였습니다"),
+    FCM_JSON_PARSE_ERROR(FORBIDDEN, "FCM 형식이 올바르지 않습니다."),
+    BLOCKED_USER(FORBIDDEN, "차단된 유저입니다"),
 
     /* 404 NOT_FOUND : Resource를 찾을 수 없음 */
     NOT_FOUND_MEMBER(NOT_FOUND, "존재하지 않는 유저입니다."),
@@ -41,7 +44,6 @@ public enum ErrorCode {
 
 
     SERVER_ERROR(INTERNAL_SERVER_ERROR,"서버 내부에 에러가 발생했습니다." )
-
 
     ;
 
