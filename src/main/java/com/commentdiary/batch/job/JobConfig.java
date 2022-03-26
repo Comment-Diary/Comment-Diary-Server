@@ -18,19 +18,20 @@
 //    private final StepBuilderFactory stepBuilderFactory;
 //
 //    @Bean
-//    public Job job() {
-//        return jobBuilderFactory.get("job")
-//                .start(step1())
+//    public Job simpleJob() {
+//        return jobBuilderFactory.get("simpleJob")
+//                .start(simpleStep1())
 //                .build();
 //    }
 //
+//
 //    @Bean
-//    public Step step1() {
-//        return stepBuilderFactory.get("step1")
-//                .tasklet((stepContribution, chunkContext) -> {
+//    public Step simpleStep1() {
+//        return stepBuilderFactory.get("simpleStep1")
+//                .tasklet((contribution, chunkContext) -> {
 //                    log.info(">>>>> This is Step1");
-//                    System.out.println(">>>>>>>>>>>> step ");
 //                    return RepeatStatus.FINISHED;
-//                }).build();
+//                })
+//                .build();
 //    }
 //}
