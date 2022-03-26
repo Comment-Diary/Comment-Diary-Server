@@ -10,21 +10,21 @@ import static com.commentdiary.common.response.CommonResponseStatus.SUCCESS;
 
 @Getter
 @AllArgsConstructor
-@JsonPropertyOrder({"message", "result"})
+@JsonPropertyOrder({"code", "message", "result"})
 public class CommonResponse<T> {
-//    private final int code;
+    private final int code;
     private final String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T result;
 
     public CommonResponse(T result) {
-//        this.code = SUCCESS.getCode();
+        this.code = SUCCESS.getCode();
         this.message = SUCCESS.getMessage();
         this.result = result;
     }
 
     public CommonResponse(CommonResponseStatus status) {
-//        this.code = status.getCode();
+        this.code = status.getCode();
         this.message = status.getMessage();
     }
 }
