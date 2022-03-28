@@ -55,7 +55,7 @@ public class CommentService {
     @Transactional
     public List<MyCommentResponse> getMyComment() {
         Member member = getMyMember();
-        List<Comment> commentList = commentRepository.findAllByMemberIdOrderByDateAsc(member.getId());
+        List<Comment> commentList = commentRepository.findAllByMemberIdOrderByDateDesc(member.getId());
         return commentList.stream()
                 .map(comment -> MyCommentResponse.of(comment))
                 .collect(Collectors.toList());
@@ -64,7 +64,7 @@ public class CommentService {
     @Transactional
     public List<MyCommentResponse> getMyCommentByDate(String date) {
         Member member = getMyMember();
-        List<Comment> commentList = commentRepository.findAllByMemberIdAndDateContainsOrderByDateAsc(member.getId(), date);
+        List<Comment> commentList = commentRepository.findAllByMemberIdAndDateContainsOrderByDateDesc(member.getId(), date);
         return commentList.stream()
                 .map(comment -> MyCommentResponse.of(comment))
                 .collect(Collectors.toList());

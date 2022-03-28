@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
-    List<Diary> findByMemberIdOrderByDateAsc(long memberId);
-    List<Diary> findByMemberIdAndDateContainsOrderByDateAsc(long memberId, String date);
+    List<Diary> findByMemberIdOrderByDateDesc(long memberId);
+    List<Diary> findByMemberIdAndDateContainsOrderByDateDesc(long memberId, String date);
 
-    Optional<Diary> findByIdAndMemberIdOrderByDateAsc(long diaryId, long memberId);
+    Optional<Diary> findByIdAndMemberIdOrderByDateDesc(long diaryId, long memberId);
 
     void deleteById(Long id);
 

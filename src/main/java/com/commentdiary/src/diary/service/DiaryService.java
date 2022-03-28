@@ -45,7 +45,7 @@ public class DiaryService {
 
     public List<DiaryDetailResponse> getAllMainDiary(String date) {
         Long memberId = getMemberId();
-        List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContainsOrderByDateAsc(memberId, date);
+        List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContainsOrderByDateDesc(memberId, date);
         return diaryList.stream()
                 .map(diary -> DiaryDetailResponse.of(diary))
                 .collect(Collectors.toList());
@@ -53,13 +53,13 @@ public class DiaryService {
 
     public DiaryDetailResponse getOneDiary(long diaryId) {
         Long memberId = getMemberId();
-        Diary diary = diaryRepository.findByIdAndMemberIdOrderByDateAsc(diaryId, memberId).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
+        Diary diary = diaryRepository.findByIdAndMemberIdOrderByDateDesc(diaryId, memberId).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
         return DiaryDetailResponse.of(diary);
     }
 
     public List<DiaryResponse> getDiaryByAllDate() {
         Long memberId = getMemberId();
-        List<Diary> diaryList = diaryRepository.findByMemberIdOrderByDateAsc(memberId);
+        List<Diary> diaryList = diaryRepository.findByMemberIdOrderByDateDesc(memberId);
         return diaryList.stream()
                 .filter(diary -> diary.getTempYn() == 'N')
                 .map(diary -> DiaryResponse.of(diary))
@@ -68,7 +68,7 @@ public class DiaryService {
 
     public List<DiaryResponse> getDiaryByDate(String date) {
         Long memberId = getMemberId();
-        List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContainsOrderByDateAsc(memberId, date);
+        List<Diary> diaryList = diaryRepository.findByMemberIdAndDateContainsOrderByDateDesc(memberId, date);
         return diaryList.stream()
                 .filter(diary -> diary.getTempYn() == 'N')
                 .map(diary -> DiaryResponse.of(diary))
