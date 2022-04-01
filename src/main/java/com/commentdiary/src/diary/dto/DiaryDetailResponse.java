@@ -12,9 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class DiaryDetailResponse {
     private long id;
     private String title;
@@ -25,6 +23,7 @@ public class DiaryDetailResponse {
     private int commentCnt;
     private List<CommentResponse> commentResponseList;
 
+    @Builder
     public DiaryDetailResponse(long id, String title, String content, String date, char deliveryYn, char tempYn, List<CommentResponse> commentResponseList){
         this.id = id;
         this.title = title;
@@ -44,7 +43,6 @@ public class DiaryDetailResponse {
                 .date(diary.getDate())
                 .deliveryYn(diary.getDeliveryYn())
                 .tempYn(diary.getTempYn())
-                .commentCnt(diary.getComments().size())
                 .commentResponseList(diary.getComments()
                         .stream()
                         .filter(comment -> comment.getStatus().equals(CommentStatus.ACTIVE))
