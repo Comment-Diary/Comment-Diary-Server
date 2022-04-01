@@ -65,6 +65,7 @@ public class MemberService {
         RefreshToken refreshToken = RefreshToken.builder()
                 .id(authentication.getName())
                 .value(tokenResponse.getRefreshToken())
+                .deviceToken(loginRequest.getDeviceToken())
                 .build();
 
         refreshTokenRepository.save(refreshToken);

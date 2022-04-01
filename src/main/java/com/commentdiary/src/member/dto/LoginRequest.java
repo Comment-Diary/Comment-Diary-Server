@@ -19,6 +19,8 @@ public class LoginRequest {
     @NotBlank(message = "비밀번호를 입력해 주세요.")
     private String password;
 
+    private String deviceToken;
+
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(email, password);
     }

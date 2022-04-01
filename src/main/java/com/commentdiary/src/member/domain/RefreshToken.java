@@ -18,15 +18,17 @@ public class RefreshToken extends BaseTimeEntity {
     @Id
     private String id;
     private String value;
+    private String deviceToken;
+
+    @Builder
+    public RefreshToken(String id, String value, String deviceToken) {
+        this.id = id;
+        this.value = value;
+        this.deviceToken = deviceToken;
+    }
 
     public RefreshToken updateValue(String token) {
         this.value = token;
         return this;
-    }
-
-    @Builder
-    public RefreshToken(String id, String value) {
-        this.id = id;
-        this.value = value;
     }
 }
