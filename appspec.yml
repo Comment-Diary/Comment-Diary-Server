@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/app/deploy/scripts/
+    destination: /home/ec2-user/app/deploy/
     overwrite: yes
 
 permissions:
@@ -13,12 +13,12 @@ permissions:
 
 hooks:
   ApplicationStart:
-    - location: start.sh
+    - location: scripts/start.sh
       timeout: 180
       runas: ec2-user
-    - location: health.sh
+    - location: scripts/health.sh
       timeout: 180
       runas: ec2-user
-    - location: switch.sh
+    - location: scripts/switch.sh
       timeout: 180
       runas: ec2-user
