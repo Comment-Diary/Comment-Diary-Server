@@ -22,10 +22,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-
-//    @Value("${jwt.secret}")
-//    private String secret;
-
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
@@ -67,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/members/logout").permitAll()
                 .antMatchers("/api/v1/members/reissue").permitAll()
                 .antMatchers("/api/v1/email/**").permitAll()
+                .antMatchers("/api/v1/health/**").permitAll()
                 .anyRequest().authenticated()
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig로 security 적용
@@ -78,9 +75,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Bean
-//    public JwtUtil jwtUtil(){
-//        return new JwtUtil(secret);
-//    }
 }
