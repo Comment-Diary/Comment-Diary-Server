@@ -2,7 +2,8 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/app/deploy
+    destination: /home/ec2-user/app/deploy/scripts/
+    overwrite: yes
 
 permissions:
   - object: /
@@ -11,7 +12,13 @@ permissions:
     group: ec2-user
 
 hooks:
-  AfterInstall:
-    - location: deploy.sh
-      timeout: 60
+  ApplicationStart:
+    - location: start.sh
+      timeout: 180
+      runas: ec2-user
+    - location: health.sh
+      timeout: 180
+      runas: ec2-user
+    - location: switch.sh
+      timeout: 180
       runas: ec2-user

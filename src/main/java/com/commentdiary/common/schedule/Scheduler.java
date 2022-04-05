@@ -55,13 +55,4 @@ public class Scheduler {
             idx = (idx + 1) % diaries.size();
         }
     }
-
-    private Long getMemberId() {
-        return SecurityUtil.getCurrentMemberId();
-    }
-
-    private Member getMyMember() {
-        return memberRepository.findById(getMemberId())
-                .orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
-    }
 }
