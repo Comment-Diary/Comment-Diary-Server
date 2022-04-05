@@ -43,9 +43,6 @@ public class MemberService {
         Member member = memberRepository.findByEmail(loginRequest.getEmail()).orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
         member.checkPassword(passwordEncoder, loginRequest.getPassword());
 
-        System.out.println(member.getStatus());
-        System.out.println(member.getStatus().getDescription());
-
         if (member.getStatus().getDescription().equals("비활성")) {
             throw new CommonException(BLOCKED_USER);
         }
@@ -113,7 +110,7 @@ public class MemberService {
         // 2. Access Token 에서 Member ID 가져오기
         Authentication authentication = tokenProvider.getAuthentication(accessToken);
 
-        // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
+        // 3. 저장소에서 Member ID를 기반으로 Refresh Token 값 가져옴
         RefreshToken getRefreshToken = refreshTokenRepository.findById(authentication.getName())
                 .orElseThrow(() -> new CommonException(ALREADY_LOGOUT));
 
@@ -146,5 +143,4 @@ public class MemberService {
         return memberRepository.findById(getMemberId())
                 .orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
     }
-
 }
