@@ -36,10 +36,6 @@ jobs:
       - name: Make Directory for deliver
         run: mkdir deploy
 
-      - name: Make Directory for scripts
-        run: mkdir ./deploy/scripts
-
-
       # Jar 파일 Copy
       - name: Copy Jar
         run: cp ./build/libs/*.jar ./deploy/
@@ -47,6 +43,10 @@ jobs:
       # appspec.yml Copy
       - name: Copy appspec
         run: cp appspec.yml ./deploy/
+
+      # scripts 넣을 디렉토리 생성
+      - name: Make Directory for scripts
+        run: mkdir ./deploy/scripts
 
       # script file Copy
       - name: Copy shell
