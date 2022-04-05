@@ -64,4 +64,13 @@ public class Member extends BaseTimeEntity {
     public void plusFiveTemp(long likeCmt, int totalCmt) {
         this.temperature += (double) likeCmt / totalCmt * 0.8;
     }
+
+    public void changePushStatus() {
+        if (this.pushYn == 'Y') {
+            this.pushYn = 'N';
+        }
+        else {
+            this.pushYn = 'Y';
+        }
+    }
 }

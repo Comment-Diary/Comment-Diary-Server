@@ -33,7 +33,6 @@ public class MemberService {
         if (memberRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new CommonException(DUPLICATED_EMAIL);
         }
-
         if (signUpRequest.isSamePassword()) {
             memberRepository.save(signUpRequest.toEntity());
         }
@@ -132,6 +131,11 @@ public class MemberService {
 
         // 토큰 발급
         return tokenResponse;
+    }
+    @Transactional
+    public PushDto push() {
+        getCurrentMemberId().changePushStatus();
+        return PushDto.of(getCurrentMemberId());
     }
 
     private Long getMemberId() {
