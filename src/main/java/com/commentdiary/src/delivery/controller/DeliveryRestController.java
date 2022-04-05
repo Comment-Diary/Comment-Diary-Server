@@ -23,9 +23,4 @@ public class DeliveryRestController {
         DeliveryResponse result = deliveryService.getDeliveredDiary(date);
         return new CommonResponse<>(result);
     }
-
-    @GetMapping("/test")
-    public void test() {
-        deliveryService.delivery();
-    }
 }
