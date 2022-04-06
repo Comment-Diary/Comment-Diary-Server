@@ -3,7 +3,6 @@ os: linux
 files:
   - source: /
     destination: /home/ec2-user/app/deploy
-    overwrite: yes
 
 permissions:
   - object: /
@@ -12,13 +11,7 @@ permissions:
     group: ec2-user
 
 hooks:
-  ApplicationStart:
-    - location: start.sh
-      timeout: 180
-      runas: ec2-user
-    - location: health.sh
-      timeout: 180
-      runas: ec2-user
-    - location: switch.sh
-      timeout: 180
+  AfterInstall:
+    - location: deploy.sh
+      timeout: 60
       runas: ec2-user
