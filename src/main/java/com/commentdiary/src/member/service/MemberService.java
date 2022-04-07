@@ -99,6 +99,7 @@ public class MemberService {
     public TokenResponse reissue(String accessToken, String refreshToken) {
         // 1. Refresh Token 검증
         String validate = tokenProvider.validateRefreshToken(refreshToken);
+        System.out.println("reissue : " + refreshToken);
 
         if (validate == "Expired") {
             throw new CommonException(EXPIRED_REFRESH_TOKEN);
