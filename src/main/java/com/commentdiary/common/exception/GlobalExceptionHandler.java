@@ -27,15 +27,15 @@ public class GlobalExceptionHandler {
         return ErrorResponse.toAllExceptionEntity(e.getMessage());
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> validationHandleException(MethodArgumentNotValidException e) {
-        Map<String, String> errors = new HashMap<>();
-        e.getBindingResult().getAllErrors()
-                .forEach(c -> errors.put(((FieldError) c).getField(), c.getDefaultMessage()));
-        for( String key : errors.keySet() ){
-            String value = errors.get(key);
-            System.out.println( String.format("키 : "+key+", 값 : "+value));
-        }
-        return ErrorResponse.toValidationExceptionEntity(e.getMessage());
-    }
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<ErrorResponse> validationHandleException(MethodArgumentNotValidException e) {
+//        Map<String, String> errors = new HashMap<>();
+//        e.getBindingResult().getAllErrors()
+//                .forEach(c -> errors.put(((FieldError) c).getField(), c.getDefaultMessage()));
+//        for( String key : errors.keySet() ){
+//            String value = errors.get(key);
+//            System.out.println( String.format("키 : "+key+", 값 : "+value));
+//        }
+//        return ErrorResponse.toValidationExceptionEntity(e.getMessage());
+//    }
 }

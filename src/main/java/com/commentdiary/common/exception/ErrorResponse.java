@@ -34,14 +34,14 @@ public class ErrorResponse {
                         .build());
     }
 
-    public static ResponseEntity<ErrorResponse> toValidationExceptionEntity(String message) {
-        ErrorCode errorCode = ErrorCode.INVALID_REQUEST;
-        return ResponseEntity
-                .status(errorCode.getHttpStatus())
-                .body(ErrorResponse.builder()
-                        .status(errorCode.getHttpStatus().value())
-                        .code(errorCode.name())
-                        .message(errorCode.getMessage())
-                        .build());
-    }
+//    public static ResponseEntity<ErrorResponse> toValidationExceptionEntity(String message) {
+//        ErrorCode errorCode = ErrorCode.INVALID_REQUEST;
+//        return ResponseEntity
+//                .status(errorCode.getHttpStatus())
+//                .body(ErrorResponse.builder()
+//                        .status(errorCode.getHttpStatus().value())
+//                        .code(errorCode.name())
+//                        .message(errorCode.getMessage())
+//                        .build());
+//    }
 }
