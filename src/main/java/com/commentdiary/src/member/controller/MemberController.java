@@ -4,17 +4,11 @@ import com.commentdiary.common.response.CommonResponse;
 import com.commentdiary.src.member.dto.*;
 import com.commentdiary.src.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.commentdiary.common.exception.ErrorCode.INVALID_EMAIL_ADDRESS;
 import static com.commentdiary.common.response.CommonResponseStatus.SUCCESS;
 
 @Validated
@@ -26,14 +20,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/sign-up")
-    public CommonResponse<Void> signUp(@Valid @RequestBody SignUpRequest signUpRequest, BindingResult result) {
-        if(result.hasErrors()) {
-            Map<String, String> errorMap = new HashMap<>();
-            for(FieldError error : result.getFieldErrors()) {
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            }
-            return new CommonResponse(INVALID_EMAIL_ADDRESS);
-        }
+    public CommonResponse<Void> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
         memberService.signUp(signUpRequest);
         return new CommonResponse<>(SUCCESS);
     }
