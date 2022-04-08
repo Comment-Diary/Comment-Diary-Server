@@ -62,6 +62,12 @@ public class MemberController {
         return new CommonResponse<>(SUCCESS);
     }
 
+    @PatchMapping("/push")
+    public CommonResponse<PushDto> push() {
+        PushDto result = memberService.push();
+        return new CommonResponse<>(result);
+    }
+
     @DeleteMapping("")
     public CommonResponse<Void> delete() {
         memberService.delete();
