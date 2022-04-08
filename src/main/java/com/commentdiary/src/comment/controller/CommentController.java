@@ -20,24 +20,28 @@ public class CommentController {
     @PostMapping("")
     public CommonResponse<CreateCommentResponse> createComment(@RequestBody CreateCommentRequest createCommentRequest) {
         CreateCommentResponse result = commentService.createComment(createCommentRequest);
+        log.info("[CommentController] createComment");
         return new CommonResponse<>(result);
     }
 
     @PatchMapping("/like/{commentId}")
     public CommonResponse<LikeResponse> like(@PathVariable(value = "commentId") long commentId) {
         LikeResponse result = commentService.like(commentId);
+        log.info("[CommentController] like");
         return new CommonResponse<>(result);
     }
 
     @GetMapping("/all")
     public CommonResponse<List<MyCommentResponse>> getMyComment() {
         List<MyCommentResponse> result = commentService.getMyComment();
+        log.info("[CommentController] getMyComment");
         return new CommonResponse<>(result);
     }
 
     @GetMapping("")
     public CommonResponse<List<MyCommentResponse>> getMyCommentByDate(@RequestParam(value = "date") String date) {
         List<MyCommentResponse> result = commentService.getMyCommentByDate(date);
+        log.info("[CommentController] getMyCommentByDate");
         return new CommonResponse<>(result);
     }
 
