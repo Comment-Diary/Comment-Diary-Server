@@ -5,17 +5,11 @@ import com.commentdiary.src.member.dto.*;
 import com.commentdiary.src.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.commentdiary.common.exception.ErrorCode.INVALID_EMAIL_ADDRESS;
 import static com.commentdiary.common.response.CommonResponseStatus.SUCCESS;
 
 @Slf4j
@@ -41,16 +35,16 @@ public class MemberController {
     }
 
     @GetMapping("")
-    public CommonResponse<MyPageResponse> myPage() {
+    public CommonResponse<MyPageResponse> myPage(Authentication authentication) {
         MyPageResponse result = memberService.myPage();
-        log.info("[MemberController] myPage");
+        log.info("[MemberController] myPage, id : {}", authentication.getName());
         return new CommonResponse<>(result);
     }
 
     @PatchMapping("")
-    public CommonResponse<Void> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+    public CommonResponse<Void> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest, Authentication authentication) {
         memberService.changePassword(changePasswordRequest);
-        log.info("[MemberController] changePassword");
+        log.info("[MemberController] changePassword, id : {}", authentication.getName());
         return new CommonResponse<>(SUCCESS);
     }
 
@@ -62,16 +56,16 @@ public class MemberController {
     }
 
     @PatchMapping("/push")
-    public CommonResponse<PushDto> push() {
+    public CommonResponse<PushDto> push(Authentication authentication) {
         PushDto result = memberService.push();
-        log.info("[MemberController] push");
+        log.info("[MemberController] push, id : {}", authentication.getName());
         return new CommonResponse<>(result);
     }
 
     @DeleteMapping("")
-    public CommonResponse<Void> delete() {
+    public CommonResponse<Void> delete(Authentication authentication) {
         memberService.delete();
-        log.info("[MemberController] delete");
+        log.info("[MemberController] delete, id : {}", authentication.getName());
         return new CommonResponse<>(SUCCESS);
     }
 
