@@ -28,6 +28,7 @@ public class DiaryController {
     @PostMapping("")
     public CommonResponse<CreateDiaryResponse> createDiary(@RequestBody CreateDiaryRequest createDiaryRequest) {
         CreateDiaryResponse result = diaryService.createDiary(createDiaryRequest);
+        log.info("[DiaryController] createDiary");
         return new CommonResponse<>(result);
     }
 
@@ -37,6 +38,7 @@ public class DiaryController {
     @PatchMapping("/{diaryId}")
     public CommonResponse<Void> updateDiary(@PathVariable(value = "diaryId") long diaryId, @RequestBody CreateDiaryRequest createDiaryRequest) {
         diaryService.updateDiary(diaryId, createDiaryRequest);
+        log.info("[DiaryController] updateDiary");
         return new CommonResponse<>(SUCCESS);
     }
 
@@ -46,6 +48,7 @@ public class DiaryController {
     @DeleteMapping("/{diaryId}")
     public CommonResponse<Void> deleteDiary(@PathVariable(value = "diaryId") long diaryId) {
         diaryService.deleteDiary(diaryId);
+        log.info("[DiaryController] deleteDiary");
         return new CommonResponse<>(SUCCESS);
     }
 
@@ -55,6 +58,7 @@ public class DiaryController {
     @GetMapping("/main")
     public CommonResponse<List<DiaryDetailResponse>> getAllMainDiary(@RequestParam(value = "date") String date) {
         List<DiaryDetailResponse> result = diaryService.getAllMainDiary(date);
+        log.info("[DiaryController] getAllMainDiary");
         return new CommonResponse<>(result);
     }
 
@@ -65,6 +69,7 @@ public class DiaryController {
     @GetMapping("/{diaryId}")
     public CommonResponse<DiaryDetailResponse> getOneDiary(@PathVariable(value = "diaryId") long diaryId) {
         DiaryDetailResponse result = diaryService.getOneDiary(diaryId);
+        log.info("[DiaryController] getOneDiary");
         return new CommonResponse<>(result);
     }
 
@@ -73,6 +78,7 @@ public class DiaryController {
      */
     @GetMapping("/my/all")
     public CommonResponse<List<DiaryResponse>> getDiaryByAllDate() {
+        log.info("[DiaryController] getDiaryByAllDate");
         return new CommonResponse<>(diaryService.getDiaryByAllDate());
     }
 
@@ -81,6 +87,7 @@ public class DiaryController {
      */
     @GetMapping("/my")
     public CommonResponse<List<DiaryResponse>> getDiaryByDate(@RequestParam(value = "date") String date) {
+        log.info("[DiaryController] getDiaryByDate");
         return new CommonResponse<>(diaryService.getDiaryByDate(date));
     }
 
