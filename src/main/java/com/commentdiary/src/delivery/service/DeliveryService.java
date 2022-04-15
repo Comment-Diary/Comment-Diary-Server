@@ -45,12 +45,13 @@ public class DeliveryService {
         DeliveryRequest deliveryRequest = new DeliveryRequest();
 
         Date today = new Date();
-        Date yesterday = new Date(today.getTime()+(1000*60*60*24*-1));
+        Date codaDate = new Date(today.getTime() - (1000 * 60 * 60 * 7));
+        Date yesterday = new Date(today.getTime()+(1000 * 60 * 60 * 24 * - 1));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
 
         List<Diary> diaries = diaryRepository.findAllByDeliveryYnIsAndDateContainsAndMemberIsNotNullAndTempYnEquals('Y', simpleDateFormat.format(yesterday), 'N');
         int idx = (int) (Math.random() * (diaries.size()));
-        deliveryRepository.save(deliveryRequest.toEntity(member, diaries.get(idx), simpleDateFormat.format(today)));
+        deliveryRepository.save(deliveryRequest.toEntity(member, diaries.get(idx), simpleDateFormat.format(codaDate)));
     }
 
     private Long getMemberId() {
