@@ -46,7 +46,7 @@ public class DeliveryService {
 
         Date today = new Date();
         Date codaDate = new Date(today.getTime() - (1000 * 60 * 60 * 7));
-        Date yesterday = new Date(today.getTime()+(1000 * 60 * 60 * 24 * - 1));
+        Date yesterday = new Date(codaDate.getTime()+(1000 * 60 * 60 * 24 * - 1));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
 
         List<Diary> diaries = diaryRepository.findAllByDeliveryYnIsAndDateContainsAndMemberIsNotNullAndTempYnEquals('Y', simpleDateFormat.format(yesterday), 'N');
