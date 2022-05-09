@@ -112,13 +112,13 @@ public class EmailService {
     private String emailContentBuilder(int code) {
         Context context = new Context();
         context.setVariable("code", code);
-        return templateEngine.process("email-template", context);
+        return templateEngine.process("email-auth-template", context);
     }
 
     private String emailContentBuilder(String tempPassword) {
         Context context = new Context();
         context.setVariable("code", tempPassword);
-        return templateEngine.process("email-template", context);
+        return templateEngine.process("find-password-template", context);
     }
 
     private int createCode() {
