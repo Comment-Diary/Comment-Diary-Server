@@ -50,8 +50,11 @@ public class DeliveryService {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
 
         List<Diary> diaries = diaryRepository.findAllByDeliveryYnIsAndDateContainsAndMemberIsNotNullAndTempYnEquals('Y', simpleDateFormat.format(yesterday), 'N');
-        int idx = (int) (Math.random() * (diaries.size()));
-        deliveryRepository.save(deliveryRequest.toEntity(member, diaries.get(idx), simpleDateFormat.format(codaDate)));
+
+        if (diaries.size() != 0) {
+            int idx = (int) (Math.random() * (diaries.size()));
+            deliveryRepository.save(deliveryRequest.toEntity(member, diaries.get(idx), simpleDateFormat.format(codaDate)));
+        }
     }
 
     private Long getMemberId() {
