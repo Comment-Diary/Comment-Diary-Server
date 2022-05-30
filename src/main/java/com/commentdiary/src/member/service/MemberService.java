@@ -2,6 +2,7 @@ package com.commentdiary.src.member.service;
 
 import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.jwt.*;
+import com.commentdiary.src.delivery.service.DeliveryService;
 import com.commentdiary.src.member.repository.MemberRepository;
 import com.commentdiary.src.member.repository.RefreshTokenRepository;
 import com.commentdiary.src.member.domain.Member;
@@ -27,6 +28,7 @@ public class MemberService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final DeliveryService deliveryService;
 
     @Transactional
     public void signUp(SignUpRequest signUpRequest) {
@@ -36,6 +38,8 @@ public class MemberService {
         if (signUpRequest.isSamePassword()) {
             memberRepository.save(signUpRequest.toEntity());
         }
+        Member member = memberRepository.findByEmail(signUpRequest.getEmail()).orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
+        deliveryService.deliveryDiary(member);
     }
 
     @Transactional
