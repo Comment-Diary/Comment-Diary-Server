@@ -24,7 +24,7 @@ public class DiaryResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<CommentResponse> commentResponseList;
 
-    public DiaryResponse(long id, String title, String content, String date, char deliveryYn, int commentCnt, List<CommentResponse> commentResponseList){
+    public DiaryResponse(long id, String title, String content, String date, char deliveryYn, int commentCnt, List<CommentResponse> commentResponseList) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -42,10 +42,10 @@ public class DiaryResponse {
                 .date(diary.getDate())
                 .deliveryYn(diary.getDeliveryYn())
                 .commentResponseList(diary.getComments()
-                                        .stream()
-                                        .filter(comment -> comment.getStatus().equals(CommentStatus.ACTIVE))
-                                        .map(comment -> CommentResponse.of(comment))
-                                        .collect(Collectors.toList()))
+                        .stream()
+                        .filter(comment -> comment.getStatus().equals(CommentStatus.ACTIVE))
+                        .map(comment -> CommentResponse.of(comment))
+                        .collect(Collectors.toList()))
                 .build();
     }
 }

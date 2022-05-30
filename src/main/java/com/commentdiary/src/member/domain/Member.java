@@ -68,8 +68,7 @@ public class Member extends BaseTimeEntity {
     public void changePushStatus() {
         if (this.pushYn == 'Y') {
             this.pushYn = 'N';
-        }
-        else {
+        } else {
             this.pushYn = 'Y';
         }
     }

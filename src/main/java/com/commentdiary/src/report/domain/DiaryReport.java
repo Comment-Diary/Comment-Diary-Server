@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Entity
 @DynamicInsert
 @Builder
-public class DiaryReport extends BaseTimeEntity  {
+public class DiaryReport extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

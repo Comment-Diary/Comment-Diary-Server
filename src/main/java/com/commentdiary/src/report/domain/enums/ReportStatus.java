@@ -7,8 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ReportStatus {
     WAITING("처리 중"),
-    DONE("완료")
-    ;
+    DONE("완료");
 
     private String description;
 }

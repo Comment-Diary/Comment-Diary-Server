@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class PushDto {
     private char pushYn;
 
-    public static PushDto of (Member member) {
+    public static PushDto of(Member member) {
         return PushDto.builder()
                 .pushYn(member.getPushYn())
                 .build();

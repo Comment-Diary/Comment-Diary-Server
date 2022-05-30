@@ -21,7 +21,7 @@ public class EmailController {
 
     @GetMapping("")
     public CommonResponse<Void> sendCode(@RequestParam(value = "email") EmailAddrRequest emailAddrRequest) {
-        emailService.sendCode(new EmailSend(emailAddrRequest.getEmail(),"회원가입 인증 메일", ""));
+        emailService.sendCode(new EmailSend(emailAddrRequest.getEmail(), "회원가입 인증 메일", ""));
         log.info("[EmailController] sendCode");
         return new CommonResponse<>(SUCCESS);
     }
@@ -35,11 +35,10 @@ public class EmailController {
 
     @GetMapping("/password")
     public CommonResponse<Void> sendPassword(@RequestParam(value = "email") EmailAddrRequest emailAddrRequest) {
-        emailService.sendPassword(new EmailSend(emailAddrRequest.getEmail(),"임시 비밀번호 발급", ""));
+        emailService.sendPassword(new EmailSend(emailAddrRequest.getEmail(), "임시 비밀번호 발급", ""));
         log.info("[EmailController] sendPassword");
         return new CommonResponse<>(SUCCESS);
     }
-
 
 
 }

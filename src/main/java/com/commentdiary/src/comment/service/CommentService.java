@@ -108,5 +108,4 @@ public class CommentService {
         return memberRepository.findById(getMemberId())
                 .orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
     }
-
 }
