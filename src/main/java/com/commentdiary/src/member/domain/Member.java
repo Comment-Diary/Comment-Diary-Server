@@ -61,8 +61,12 @@ public class Member extends BaseTimeEntity {
         this.password = password;
     }
 
-    public void plusFiveTemp(long likeCmt, int totalCmt) {
+    public void plusTemp(int likeCmt, int totalCmt) {
         this.temperature += (double) likeCmt / totalCmt * 0.8;
+    }
+
+    public void minusTemp(long likeCmt, int totalCmt) {
+        this.temperature -= (double) likeCmt / totalCmt * 0.8;
     }
 
     public void changePushStatus() {

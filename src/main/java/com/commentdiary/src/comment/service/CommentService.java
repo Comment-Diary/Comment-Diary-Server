@@ -49,8 +49,15 @@ public class CommentService {
         if (comment.getMember() != null) {
             Member member = comment.getMember();
             int totalCmt = comment.getMember().getComments().size();
-            long likeCmt = comment.getMember().getComments().stream().filter(c -> c.getIsLike()).count();
-            member.plusFiveTemp(likeCmt, totalCmt);
+            int likeCmt = (int) comment.getMember().getComments().stream().filter(c -> c.getIsLike()).count();
+
+            if (comment.getIsLike()) {
+                member.plusTemp(likeCmt, totalCmt);
+            }
+            if (!comment.getIsLike()) {
+                member.minusTemp(likeCmt, totalCmt);
+            }
+
         }
         return LikeResponse.of(comment);
     }
