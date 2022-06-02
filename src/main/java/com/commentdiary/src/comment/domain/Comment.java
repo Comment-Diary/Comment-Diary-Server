@@ -47,7 +47,12 @@ public class Comment extends BaseTimeEntity {
     }
 
     public void likeComment() {
-        this.isLike = true;
+        if (this.getIsLike()) {
+            this.isLike = false;
+        }
+        else {
+            this.isLike = true;
+        }
     }
 
     public void blockedComment() {

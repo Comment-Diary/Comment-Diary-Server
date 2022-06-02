@@ -45,9 +45,6 @@ public class CommentService {
     @Transactional
     public LikeResponse like(long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CommonException(NOT_MATCHED_COMMENT));
-        if (comment.getIsLike()) {
-            throw new CommonException(ALREADY_LIKE);
-        }
         comment.likeComment();
         if (comment.getMember() != null) {
             Member member = comment.getMember();
