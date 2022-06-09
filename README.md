@@ -1,4 +1,4 @@
-# Comment Diary
+# 코다 - 코멘트 다이어리
 > 누군가의 한마디가 최선의 위로가 되는 순간
 > 
 ![image](https://user-images.githubusercontent.com/63606128/172911998-3e7ada4c-7cd4-4706-aceb-7d7746d8a938.png)
