@@ -18,8 +18,6 @@
 //import java.util.Date;
 //import java.util.List;
 //
-//import static com.commentdiary.common.exception.ErrorCode.NOT_FOUND_MEMBER;
-//
 //@Service
 //@Slf4j
 //@RequiredArgsConstructor
