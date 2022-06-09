@@ -49,7 +49,7 @@ public class DeliveryService {
         Date yesterday = new Date(codaDate.getTime() + (1000 * 60 * 60 * 24 * -1));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
 
-        List<Diary> diaries = diaryRepository.findAllByDeliveryYnIsAndDateContainsAndMemberIsNotNullAndTempYnEquals('Y', simpleDateFormat.format(yesterday), 'N');
+        List<Diary> diaries = diaryRepository.findAllByDeliveryDiaries(simpleDateFormat.format(yesterday));
 
         if (diaries.size() != 0) {
             int idx = (int) (Math.random() * (diaries.size()));

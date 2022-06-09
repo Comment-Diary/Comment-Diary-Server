@@ -53,7 +53,7 @@ public class DiaryService {
 
     public DiaryDetailResponse getOneDiary(long diaryId) {
         Long memberId = getMemberId();
-        Diary diary = diaryRepository.findByIdAndMemberIdOrderByDateDesc(diaryId, memberId).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
+        Diary diary = diaryRepository.findByIdAndMemberId(diaryId, memberId).orElseThrow(() -> new CommonException(NOT_FOUND_DIARY));
         return DiaryDetailResponse.of(diary);
     }
 
