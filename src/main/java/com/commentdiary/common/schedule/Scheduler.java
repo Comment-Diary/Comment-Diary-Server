@@ -40,8 +40,7 @@
 //
 //        // 어제 일기를 찾아와서, 오늘 전달하는데, 전달 테이블에는 오늘 날짜를 저장해야 됨. 클라에서 오늘 날짜가 들어온다.
 //        List<Member> members = memberRepository.findAll();
-//        List<Diary> diaries = diaryRepository.findAllByDeliveryYnIsAndDateContainsAndMemberIsNotNullAndTempYnEquals('Y', simpleDateFormat.format(yesterday), 'N');
-//
+//        List<Diary> diaries = diaryRepository.findAllByDeliveryDiaries(simpleDateFormat.format(yesterday));
 //        int idx = 0;
 //
 //        for (int i = 0; i < members.size(); i++) {
