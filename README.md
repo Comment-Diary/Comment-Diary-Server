@@ -9,7 +9,7 @@
 1. [개요](#개요)
 2. [팀 정보](#팀-정보)
 3. [사용 기술](#사용-기술)
-4. [역할](#역할)
+4. [기능](#기능)
 5. [시스템 구성도](#시스템-구성도)
 6. [ERD](#erd)
 7. [API 명세서](#api-명세서)
@@ -42,9 +42,10 @@
 - Nginx
 - Github Actions
 
-## 역할
+## 기능
 
 ## 시스템 구성도
+![image](https://user-images.githubusercontent.com/63606128/173087888-2d9d48ae-3edf-47a7-8f3a-915a8ec197fd.png)
 
 ## ERD
 
