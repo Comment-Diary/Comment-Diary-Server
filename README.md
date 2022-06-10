@@ -6,15 +6,14 @@
 ### 코다는 [앱 스토어](https://apps.apple.com/kr/app/%EC%BD%94%EB%8B%A4/id1612201085?l=en), [플레이 스토어](https://play.google.com/store/apps/details?id=com.movingmaker.commentdiary)에서 만나 볼 수 있습니다.
 
 ## 목차
-1. 개요
-2. 팀 정보
-3. 사용 기술
-4. 역흘
-5. 시스템 구성도
-6. ERD
-7. API 명세서
-9. 회고
-
+1. [개요](#개요)
+2. [팀 정보](#팀-정보)
+3. [사용 기술](#사용-기술)
+4. [역할](#역할)
+5. [시스템 구성도](#시스템-구성도)
+6. [ERD](#erd)
+7. [API 명세서](#api-명세서)
+9. [회고](#회고)
 
 ## 개요
 - 혼자 일기를 작성하고 끝내는 기존 서비스에 대해 아쉬움을 느꼈습니다.
@@ -32,3 +31,24 @@
 | 소속 | 수익형 앱 런칭 IT 동아리 CMC 9th |
 | 팀 구성 | 기획자 1명, 디자이너 1명, Front-End 2명(iOS, AOS), Back-End 1명 中 Back-End |
 | 소개 | 일기 작성 후 익명의 유저에게 해당 일기에 대한 코멘트를 받아 볼 수 있는 다이어리 애플리케이션 |
+
+## 사용 기술
+- Java
+- Spring Boot, Spring Data JPA, Spring Security
+- Thymeleaf
+- MySQL
+- AWS EC2, RDS, S3, CodeDeploy
+- Firebase Cloud Messaging
+- Nginx
+- Github Actions
+
+## 역할
+
+## 시스템 구성도
+
+## ERD
+
+## API 명세서
+
+## 회고
+
