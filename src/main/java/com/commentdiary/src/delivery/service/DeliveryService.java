@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -44,16 +46,19 @@ public class DeliveryService {
     public void deliveryDiary(Member member) {
         DeliveryRequest deliveryRequest = new DeliveryRequest();
 
-        Date today = new Date();
-        Date codaDate = new Date(today.getTime() - (1000 * 60 * 60 * 7));
-        Date yesterday = new Date(codaDate.getTime() + (1000 * 60 * 60 * 24 * -1));
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        LocalDateTime today = LocalDateTime.now();
 
-        List<Diary> diaries = diaryRepository.findAllByDeliveryDiaries(simpleDateFormat.format(yesterday));
+        // 7시간 전 (코다 시간)
+        LocalDateTime codaTime = today.minusHours(7);
+        // 하루 전
+        LocalDateTime yesterday = codaTime.minusDays(1);
+        String codaFormat = yesterday.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+
+        List<Diary> diaries = diaryRepository.findAllByDeliveryDiaries(codaFormat);
 
         if (diaries.size() != 0) {
             int idx = (int) (Math.random() * (diaries.size()));
-            deliveryRepository.save(deliveryRequest.toEntity(member, diaries.get(idx), simpleDateFormat.format(codaDate)));
+            deliveryRepository.save(deliveryRequest.toEntity(member, diaries.get(idx), codaFormat));
         }
     }
 
