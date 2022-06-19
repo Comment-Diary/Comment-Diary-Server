@@ -55,6 +55,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-admin:8.1.0'
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
 
+    // Slack
+    implementation 'com.slack.api:slack-api-client:1.22.3'
+
 }
 
 jar {
