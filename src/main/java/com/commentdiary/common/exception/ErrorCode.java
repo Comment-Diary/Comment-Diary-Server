@@ -10,6 +10,7 @@ public enum ErrorCode {
 
     /* 400 BAD_REQUEST : 잘못된 요청 */
     INVALID_EMAIL_ADDRESS(BAD_REQUEST, "올바른 이메일 주소를 입력해 주세요."),
+    INVALID_LOGIN_TYPE(BAD_REQUEST, "올바른 로그인 타입을 입력해 주세요."),
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
     WRONG_TOKEN_SIGNATURE(UNAUTHORIZED, "잘못된 JWT 서명입니다."),
@@ -18,6 +19,7 @@ public enum ErrorCode {
     WRONG_TOKEN(UNAUTHORIZED, "JWT 토큰이 잘못되었습니다."),
     EXPIRED_REFRESH_TOKEN(UNAUTHORIZED, "만료된 Refresh JWT 토큰입니다."),
     INVALID_REFRESH_TOKEN(UNAUTHORIZED, "Refresh 토큰이 유효하지 않습니다."),
+    INVALID_KAKAO_TOKEN(UNAUTHORIZED, "카카오 Access Token이 유효하지 않습니다."),
 
 
     /* 403 Forbidden : 요청이 서버에 의해 거부되었음 */
@@ -43,7 +45,8 @@ public enum ErrorCode {
     ALREADY_LIKE(CONFLICT, "이미 좋아요를 눌렀습니다."),
 
 
-    SERVER_ERROR(INTERNAL_SERVER_ERROR,"서버 내부에 에러가 발생했습니다." )
+    SERVER_ERROR(INTERNAL_SERVER_ERROR,"서버 내부에 에러가 발생했습니다."),
+    INVALID_KAKAO_SERVER_ERROR(INTERNAL_SERVER_ERROR, "카카오 로그인 서버에 접근하는 중 에러가 발생했습니다."),
 
     ;
 

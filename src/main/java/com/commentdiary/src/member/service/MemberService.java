@@ -3,12 +3,15 @@ package com.commentdiary.src.member.service;
 import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.jwt.*;
 import com.commentdiary.src.delivery.service.DeliveryService;
+import com.commentdiary.src.member.domain.enums.LoginType;
 import com.commentdiary.src.member.repository.MemberRepository;
 import com.commentdiary.src.member.repository.RefreshTokenRepository;
 import com.commentdiary.src.member.domain.Member;
 import com.commentdiary.src.member.domain.RefreshToken;
 import com.commentdiary.src.member.dto.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -16,8 +19,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import javax.crypto.SecretKey;
+
+import java.net.URI;
 
 import static com.commentdiary.common.exception.ErrorCode.*;
+import static com.commentdiary.src.member.domain.enums.LoginType.KAKAO;
 
 @Service
 @Transactional(readOnly = true)
@@ -72,6 +89,39 @@ public class MemberService {
 
         // 5. 토큰 발급
         return tokenResponse;
+    }
+
+    @Transactional
+    public TokenResponse authLogin(AuthLoginRequest authLoginRequest) {
+        long socialId = getSocialId(authLoginRequest.getLoginType(), authLoginRequest.getAccessToken());
+
+        // 미가입자
+        if (!memberRepository.existsBySocialId(socialId)) {
+            memberRepository.save(authLoginRequest.toEntity(socialId, authLoginRequest.getLoginType()));
+        }
+
+        // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
+        Authentication kakaoAuthenticationToken = new UsernamePasswordAuthenticationToken(socialId, socialId);
+
+        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(kakaoAuthenticationToken);
+
+        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+        TokenResponse tokenResponse = tokenProvider.generateTokenDto(authentication);
+
+        // 4. RefreshToken 저장
+        RefreshToken refreshToken = RefreshToken.builder()
+                .id(authentication.getName())
+                .value(tokenResponse.getRefreshToken())
+                .deviceToken(authLoginRequest.getDeviceToken())
+                .build();
+
+        refreshTokenRepository.save(refreshToken);
+
+        // 5. 토큰 발급
+        return tokenResponse;
+
     }
 
     @Transactional
@@ -137,6 +187,35 @@ public class MemberService {
     public PushDto push() {
         getCurrentMemberId().changePushStatus();
         return PushDto.of(getCurrentMemberId());
+    }
+
+    private long getSocialId(LoginType loginType, String accessToken) {
+        if (loginType.equals(KAKAO)) {
+            return getKakaoToken(accessToken);
+        }
+//        else if (loginType.equals(APPLE)) {
+//            return getAppleToken(accessToken);
+//        }
+        else {
+            throw new CommonException(INVALID_LOGIN_TYPE);
+        }
+    }
+
+    private long getKakaoToken(String accessToken) {
+        WebClient webClient = WebClient.builder()
+                .baseUrl("https://kapi.kakao.com")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
+        JSONObject response = webClient.post()
+                .uri(uriBuilder -> uriBuilder.path("/v2/user/me").build())
+                .header("Authorization", "Bearer " + accessToken)
+                .retrieve()
+                .onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.error(new CommonException(INVALID_KAKAO_TOKEN)))
+                .onStatus(HttpStatus::is5xxServerError, serverResponse -> Mono.error(new CommonException(INVALID_KAKAO_SERVER_ERROR)))
+                .bodyToMono(JSONObject.class).block();
+
+        return (long) response.get("id");
     }
 
     private Long getMemberId() {

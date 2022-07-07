@@ -57,6 +57,16 @@ dependencies {
 
     // Slack
     implementation 'com.slack.api:slack-api-client:1.22.3'
+
+    // Webflux
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // Json Parse
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+    // OAuth
+    compileOnly 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
 }
 
 jar {

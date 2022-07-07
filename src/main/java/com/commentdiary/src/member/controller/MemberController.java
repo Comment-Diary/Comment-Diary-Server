@@ -44,6 +44,12 @@ public class MemberController {
         return new CommonResponse<>(result);
     }
 
+    @PostMapping("/auth-login")
+    public CommonResponse<TokenResponse> authLogin(@RequestBody AuthLoginRequest authLoginRequest) {
+        TokenResponse result = memberService.authLogin(authLoginRequest);
+        return new CommonResponse<>(result);
+    }
+
     @GetMapping("")
     public CommonResponse<MyPageResponse> myPage() {
         MyPageResponse result = memberService.myPage();
