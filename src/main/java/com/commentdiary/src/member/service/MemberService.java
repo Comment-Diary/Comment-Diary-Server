@@ -10,7 +10,6 @@ import com.commentdiary.src.member.domain.Member;
 import com.commentdiary.src.member.domain.RefreshToken;
 import com.commentdiary.src.member.dto.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,19 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import javax.crypto.SecretKey;
-
-import java.net.URI;
 
 import static com.commentdiary.common.exception.ErrorCode.*;
 import static com.commentdiary.src.member.domain.enums.LoginType.KAKAO;

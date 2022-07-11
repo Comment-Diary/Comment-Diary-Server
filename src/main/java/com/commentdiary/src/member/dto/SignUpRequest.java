@@ -33,12 +33,14 @@ public class SignUpRequest {
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
 
+    private char pushYn;
+
     public Member toEntity() {
         return Member.builder()
                 .email(email)
                 .password(new BCryptPasswordEncoder().encode(password))
                 .loginType(loginType)
-                .pushYn('Y')
+                .pushYn(pushYn)
                 .temperature(36.5)
                 .role(Role.ROLE_USER)
                 .build();
