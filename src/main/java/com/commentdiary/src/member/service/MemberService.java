@@ -81,36 +81,41 @@ public class MemberService {
     }
 
     @Transactional
-    public TokenResponse authLogin(AuthLoginRequest authLoginRequest) {
+    public AuthLoginResponse authLogin(AuthLoginRequest authLoginRequest) {
         long socialId = getSocialId(authLoginRequest.getLoginType(), authLoginRequest.getAccessToken());
+        String deviceToken = authLoginRequest.getDeviceToken();
 
+        boolean isNewMember = false;
         // 미가입자
         if (!memberRepository.existsBySocialId(socialId)) {
             memberRepository.save(authLoginRequest.toEntity(socialId, authLoginRequest.getLoginType()));
+            TokenResponse tokenResponse = getToken(socialId, deviceToken);
+            isNewMember = true;
+            return AuthLoginResponse.builder()
+                    .grantType(tokenResponse.getGrantType())
+                    .accessToken(tokenResponse.getAccessToken())
+                    .refreshToken(tokenResponse.getRefreshToken())
+                    .accessTokenExpiresIn(tokenResponse.getAccessTokenExpiresIn())
+                    .isNewMember(isNewMember)
+                    .build();
         }
 
-        // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
-        Authentication kakaoAuthenticationToken = new UsernamePasswordAuthenticationToken(socialId, socialId);
 
-        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
-        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(kakaoAuthenticationToken);
+        TokenResponse tokenResponse = getToken(socialId, deviceToken);
 
-        // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        TokenResponse tokenResponse = tokenProvider.generateTokenDto(authentication);
-
-        // 4. RefreshToken 저장
-        RefreshToken refreshToken = RefreshToken.builder()
-                .id(authentication.getName())
-                .value(tokenResponse.getRefreshToken())
-                .deviceToken(authLoginRequest.getDeviceToken())
+        return AuthLoginResponse.builder()
+                .grantType(tokenResponse.getGrantType())
+                .accessToken(tokenResponse.getAccessToken())
+                .refreshToken(tokenResponse.getRefreshToken())
+                .accessTokenExpiresIn(tokenResponse.getAccessTokenExpiresIn())
+                .isNewMember(isNewMember)
                 .build();
+    }
 
-        refreshTokenRepository.save(refreshToken);
-
-        // 5. 토큰 발급
-        return tokenResponse;
-
+    @Transactional
+    public void oauthSignUp(OAuthSignUpRequest oAuthSignUpRequest) {
+        Member member = getCurrentMemberId();
+        member.addPushAgree(oAuthSignUpRequest.getPushYn());
     }
 
     @Transactional
@@ -207,6 +212,29 @@ public class MemberService {
         return (long) response.get("id");
     }
 
+    private TokenResponse getToken(long socialId, String deviceToken) {
+        // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
+        Authentication kakaoAuthenticationToken = new UsernamePasswordAuthenticationToken(socialId, socialId);
+
+        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(kakaoAuthenticationToken);
+
+        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+        TokenResponse tokenResponse = tokenProvider.generateTokenDto(authentication);
+
+        // 4. RefreshToken 저장
+        RefreshToken refreshToken = RefreshToken.builder()
+                .id(authentication.getName())
+                .value(tokenResponse.getRefreshToken())
+                .deviceToken(deviceToken)
+                .build();
+
+        refreshTokenRepository.save(refreshToken);
+
+        return tokenResponse;
+    }
+
     private Long getMemberId() {
         return SecurityUtil.getCurrentMemberId();
     }
@@ -215,4 +243,6 @@ public class MemberService {
         return memberRepository.findById(getMemberId())
                 .orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
     }
+
+
 }

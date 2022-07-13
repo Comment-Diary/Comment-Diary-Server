@@ -45,9 +45,15 @@ public class MemberController {
     }
 
     @PostMapping("/auth-login")
-    public CommonResponse<TokenResponse> authLogin(@RequestBody AuthLoginRequest authLoginRequest) {
-        TokenResponse result = memberService.authLogin(authLoginRequest);
+    public CommonResponse<AuthLoginResponse> authLogin(@RequestBody AuthLoginRequest authLoginRequest) {
+        AuthLoginResponse result = memberService.authLogin(authLoginRequest);
         return new CommonResponse<>(result);
+    }
+
+    @PostMapping("/oauth-sign-up")
+    public CommonResponse<Void> oauthSignUp(@RequestBody OAuthSignUpRequest oAuthSignUpRequest) {
+        memberService.oauthSignUp(oAuthSignUpRequest);
+        return new CommonResponse<>(SUCCESS);
     }
 
     @GetMapping("")

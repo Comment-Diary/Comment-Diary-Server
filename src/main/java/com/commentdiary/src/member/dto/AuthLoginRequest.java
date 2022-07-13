@@ -31,10 +31,10 @@ public class AuthLoginRequest {
                 .loginType(loginType)
                 .email(String.valueOf(socialId))
                 .password(new BCryptPasswordEncoder().encode(String.valueOf(socialId)))
-                .pushYn('Y')
                 .temperature(36.5)
                 .role(Role.ROLE_USER)
-                .build();    }
+                .build();
+    }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(loginType, accessToken);
