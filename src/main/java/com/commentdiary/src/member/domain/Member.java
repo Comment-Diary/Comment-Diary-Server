@@ -4,6 +4,8 @@ import com.commentdiary.common.domain.BaseTimeEntity;
 import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.common.exception.ErrorCode;
 import com.commentdiary.src.comment.domain.Comment;
+import com.commentdiary.src.comment.domain.Comments;
+import com.commentdiary.src.member.domain.enums.LoginType;
 import com.commentdiary.src.member.domain.enums.MemberStatus;
 import com.commentdiary.src.member.domain.enums.Role;
 import lombok.AllArgsConstructor;
@@ -29,10 +31,11 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(length = 45, nullable = false)
+    private long socialId;
+
+    @Column(length = 45)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -40,8 +43,9 @@ public class Member extends BaseTimeEntity {
 
     private double temperature;
 
-    @OneToMany(mappedBy = "member")
-    private List<Comment> comments = new ArrayList<Comment>();
+    @Embedded
+    private Comments comments = new Comments();
+
 
     @Column(columnDefinition = "varchar(1) default 'Y'", nullable = false)
     private char pushYn;
@@ -50,6 +54,9 @@ public class Member extends BaseTimeEntity {
     @Column(columnDefinition = "varchar(10) default 'ACTIVE'", nullable = false)
     private MemberStatus status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10, nullable = false)
+    private LoginType loginType;
 
     public void checkPassword(PasswordEncoder passwordEncoder, String password) {
         if (!passwordEncoder.matches(password, this.password)) {
@@ -61,15 +68,35 @@ public class Member extends BaseTimeEntity {
         this.password = password;
     }
 
-    public void plusFiveTemp(long likeCmt, int totalCmt) {
+    public void plusTemp(int likeCmt, int totalCmt) {
         this.temperature += (double) likeCmt / totalCmt * 0.8;
+    }
+
+    public void minusTemp(long likeCmt, int totalCmt) {
+        this.temperature -= (double) likeCmt / totalCmt * 0.8;
     }
 
     public void changePushStatus() {
         if (this.pushYn == 'Y') {
             this.pushYn = 'N';
-        } else {
-            this.pushYn = 'Y';
+            return;
         }
+        
+        this.pushYn = 'Y';
+    }
+
+    public void addPushAgree(char pushYn) {
+        this.pushYn = pushYn;
+    }
+
+    public void controlTemperature(boolean isLike) {
+        int totalCommentCount = comments.totalCount();
+        int likeCommentCount = comments.likeCount();
+
+        if (isLike) {
+            plusTemp(likeCommentCount, totalCommentCount);
+            return;
+        }
+        minusTemp(likeCommentCount, totalCommentCount);
     }
 }

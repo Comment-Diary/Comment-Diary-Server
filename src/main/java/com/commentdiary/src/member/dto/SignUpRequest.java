@@ -3,14 +3,14 @@ package com.commentdiary.src.member.dto;
 import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.common.exception.ErrorCode;
 import com.commentdiary.src.member.domain.Member;
+import com.commentdiary.src.member.domain.enums.LoginType;
 import com.commentdiary.src.member.domain.enums.Role;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.*;
 
 @Getter
 @NoArgsConstructor
@@ -29,12 +29,18 @@ public class SignUpRequest {
     @NotBlank(message = "비밀번호를 입력해 주세요.")
     private String checkPassword;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private LoginType loginType;
+
+    private char pushYn;
 
     public Member toEntity() {
         return Member.builder()
                 .email(email)
                 .password(new BCryptPasswordEncoder().encode(password))
-                .pushYn('Y')
+                .loginType(loginType)
+                .pushYn(pushYn)
                 .temperature(36.5)
                 .role(Role.ROLE_USER)
                 .build();

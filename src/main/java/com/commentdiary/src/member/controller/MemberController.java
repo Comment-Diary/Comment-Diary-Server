@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.EntityResponse;
 
 import javax.validation.Valid;
 
@@ -33,6 +32,20 @@ public class MemberController {
         TokenResponse result = memberService.login(loginRequest);
         log.info("[MemberController] login");
         return new CommonResponse<>(result);
+    }
+
+    @PostMapping("/auth-login")
+    public CommonResponse<AuthLoginResponse> authLogin(@RequestBody AuthLoginRequest authLoginRequest) {
+        AuthLoginResponse result = memberService.authLogin(authLoginRequest);
+        log.info("[MemberController] authLogin");
+        return new CommonResponse<>(result);
+    }
+
+    @PostMapping("/oauth-sign-up")
+    public CommonResponse<Void> oauthSignUp(@RequestBody OAuthSignUpRequest oAuthSignUpRequest, Authentication authentication) {
+        memberService.oauthSignUp(oAuthSignUpRequest);
+        log.info("[MemberController] oauthSignUp, id : {}", authentication.getName());
+        return new CommonResponse<>(SUCCESS);
     }
 
     @GetMapping("")

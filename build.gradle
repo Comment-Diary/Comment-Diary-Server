@@ -20,7 +20,7 @@ dependencies {
     // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    // implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    // jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
@@ -38,10 +38,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.18'
 
     // Email
-    implementation ('org.springframework.boot:spring-boot-starter-mail')
+    implementation('org.springframework.boot:spring-boot-starter-mail')
 
-    // Tyhmleaf
-    implementation ('org.springframework.boot:spring-boot-starter-thymeleaf')
+    // Thymeleaf
+    implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
 
     //Swagger
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
@@ -58,6 +58,14 @@ dependencies {
     // Slack
     implementation 'com.slack.api:slack-api-client:1.22.3'
 
+    // Webflux
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // Json Parse
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
+    // OAuth
+    compileOnly 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 jar {
