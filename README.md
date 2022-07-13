@@ -56,7 +56,6 @@
 ## ERD
 
 ## API 명세서
-- https://documenter.getpostman.com/view/12242493/UVeNkMbE
 
 ## 회고
 
