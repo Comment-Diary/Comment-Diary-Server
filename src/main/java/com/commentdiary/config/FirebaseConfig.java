@@ -27,7 +27,7 @@ public class FirebaseConfig {
                     .setCredentials(GoogleCredentials.fromStream(new ClassPathResource(FIREBASE_CONFIG_PATH).getInputStream())).build();
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
-                System.out.println("Firebase application has been initialized");
+                log.info("Firebase application has been initialized");
             }
         }
         catch (FileNotFoundException e) {

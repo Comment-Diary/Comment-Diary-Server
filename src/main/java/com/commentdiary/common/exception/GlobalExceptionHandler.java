@@ -3,8 +3,13 @@ package com.commentdiary.common.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
@@ -21,4 +26,16 @@ public class GlobalExceptionHandler {
         log.error("Handle All Exception: {}", e.getMessage());
         return ErrorResponse.toAllExceptionEntity(e.getMessage());
     }
+
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<ErrorResponse> validationHandleException(MethodArgumentNotValidException e) {
+//        Map<String, String> errors = new HashMap<>();
+//        e.getBindingResult().getAllErrors()
+//                .forEach(c -> errors.put(((FieldError) c).getField(), c.getDefaultMessage()));
+//        for( String key : errors.keySet() ){
+//            String value = errors.get(key);
+//            System.out.println( String.format("키 : "+key+", 값 : "+value));
+//        }
+//        return ErrorResponse.toValidationExceptionEntity(e.getMessage());
+//    }
 }

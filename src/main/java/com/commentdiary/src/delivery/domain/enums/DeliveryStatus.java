@@ -7,8 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum DeliveryStatus {
     ACTIVE("활성"),
-    BLOCKED("차단")
-    ;
+    BLOCKED("차단");
 
     private String description;
 }

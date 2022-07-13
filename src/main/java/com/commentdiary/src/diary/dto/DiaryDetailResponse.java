@@ -24,7 +24,7 @@ public class DiaryDetailResponse {
     private List<CommentResponse> commentResponseList;
 
     @Builder
-    public DiaryDetailResponse(long id, String title, String content, String date, char deliveryYn, char tempYn, List<CommentResponse> commentResponseList){
+    public DiaryDetailResponse(long id, String title, String content, String date, char deliveryYn, char tempYn, List<CommentResponse> commentResponseList) {
         this.id = id;
         this.title = title;
         this.content = content;

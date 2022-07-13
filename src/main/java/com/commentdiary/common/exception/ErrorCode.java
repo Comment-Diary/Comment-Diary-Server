@@ -3,6 +3,7 @@ package com.commentdiary.common.exception;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
+
 import static org.springframework.http.HttpStatus.*;
 
 @Getter
@@ -44,10 +45,8 @@ public enum ErrorCode {
     DUPLICATED_EMAIL(CONFLICT, "이미 가입되어 있는 이메일입니다."),
     ALREADY_LIKE(CONFLICT, "이미 좋아요를 눌렀습니다."),
 
-
     SERVER_ERROR(INTERNAL_SERVER_ERROR,"서버 내부에 에러가 발생했습니다."),
     INVALID_KAKAO_SERVER_ERROR(INTERNAL_SERVER_ERROR, "카카오 로그인 서버에 접근하는 중 에러가 발생했습니다."),
-
     ;
 
     private final HttpStatus httpStatus;

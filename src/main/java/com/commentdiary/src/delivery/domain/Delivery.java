@@ -37,5 +37,7 @@ public class Delivery extends BaseTimeEntity {
     @Column(columnDefinition = "varchar(10) default 'ACTIVE'", nullable = false)
     private DeliveryStatus status;
 
-    public void blockedDiary() { this.status = DeliveryStatus.BLOCKED; }
+    public void blockedDiary() {
+        this.status = DeliveryStatus.BLOCKED;
+    }
 }
