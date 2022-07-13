@@ -1,7 +1,6 @@
 package com.commentdiary.src.diary.service;
 
 import com.commentdiary.common.exception.CommonException;
-import com.commentdiary.common.slack.service.SlackService;
 import com.commentdiary.jwt.SecurityUtil;
 import com.commentdiary.src.diary.domain.Diary;
 import com.commentdiary.src.diary.dto.CreateDiaryRequest;
@@ -27,15 +26,10 @@ public class DiaryService {
 
     private final MemberRepository memberRepository;
     private final DiaryRepository diaryRepository;
-    private final SlackService slackService;
 
     public CreateDiaryResponse createDiary(CreateDiaryRequest createDiaryRequest) {
         Member member = getCurrentMemberId();
         long id = diaryRepository.save(createDiaryRequest.toEntity(member, createDiaryRequest)).getId();
-        if (createDiaryRequest.getDeliveryYn() == 'Y') {
-            String message = ":memo: 일기가 작성됐습니다.";
-            slackService.sendSlackMessage(message);
-        }
         return new CreateDiaryResponse(id);
     }
 
