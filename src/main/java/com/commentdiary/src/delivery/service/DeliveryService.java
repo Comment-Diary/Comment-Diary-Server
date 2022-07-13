@@ -59,6 +59,7 @@ public class DeliveryService {
         if (diaries.size() != 0) {
             int idx = (int) (Math.random() * (diaries.size()));
             deliveryRepository.save(deliveryRequest.toEntity(member, diaries.get(idx), codaFormat));
+
         }
     }
 

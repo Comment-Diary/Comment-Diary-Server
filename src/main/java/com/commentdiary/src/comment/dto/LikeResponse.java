@@ -14,7 +14,7 @@ public class LikeResponse {
     private long id;
     private boolean isLike;
 
-    public static LikeResponse of (Comment comment) {
+    public static LikeResponse of(Comment comment) {
         return LikeResponse.builder()
                 .id(comment.getId())
                 .isLike(comment.getIsLike())

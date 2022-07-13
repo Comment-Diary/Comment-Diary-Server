@@ -18,7 +18,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CommonException.class)
-    public ResponseEntity<ErrorResponse> commonException (CommonException e) {
+    public ResponseEntity<ErrorResponse> commonException(CommonException e) {
         log.error("Handle CommonException: {}", e.getMessage());
         return ErrorResponse.toCommonExceptionEntity(e.getErrorCode());
     }
@@ -35,9 +35,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> allHandleException(Exception e){
+    public ResponseEntity<ErrorResponse> allHandleException(Exception e) {
         log.error("Handle All Exception: {}", e.getMessage());
         return ErrorResponse.toAllExceptionEntity(e.getMessage());
     }
-
 }

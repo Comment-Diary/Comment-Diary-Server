@@ -13,7 +13,7 @@ public class CreateCommentResponse {
     private String content;
     private String date;
 
-    public static CreateCommentResponse of (String content, String date) {
+    public static CreateCommentResponse of(String content, String date) {
         return CreateCommentResponse.builder()
                 .content(content)
                 .date(date)

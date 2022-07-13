@@ -20,6 +20,6 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
             "FROM Diary d " +
             "WHERE d.deliveryYn = 'Y' " +
             "AND d.date = :date " +
-            "AND d.tempYn = 'N'")
+            "AND d.tempYn = 'N' AND d.member IS NOT NULL")
     List<Diary> findAllByDeliveryDiaries(String date);
 }

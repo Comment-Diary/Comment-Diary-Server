@@ -147,11 +147,11 @@ public class MemberService {
     public TokenResponse reissue(String accessToken, String refreshToken) {
         // 1. Refresh Token 검증
         String validate = tokenProvider.validateRefreshToken(refreshToken);
+        System.out.println("reissue : " + refreshToken);
 
         if (validate == "Expired") {
             throw new CommonException(EXPIRED_REFRESH_TOKEN);
-        }
-        else if (validate == "Exception") {
+        } else if (validate == "Exception") {
             throw new CommonException(INVALID_REFRESH_TOKEN);
         }
 
@@ -177,6 +177,7 @@ public class MemberService {
         // 토큰 발급
         return tokenResponse;
     }
+
     @Transactional
     public PushDto push() {
         getCurrentMemberId().changePushStatus();

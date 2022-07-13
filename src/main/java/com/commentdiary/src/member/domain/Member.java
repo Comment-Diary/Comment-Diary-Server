@@ -43,9 +43,6 @@ public class Member extends BaseTimeEntity {
 
     private double temperature;
 
-//    @OneToMany(mappedBy = "member")
-//    private List<Comment> comments = new ArrayList<Comment>();
-
     @Embedded
     private Comments comments = new Comments();
 
@@ -84,9 +81,8 @@ public class Member extends BaseTimeEntity {
             this.pushYn = 'N';
             return;
         }
-        else {
-            this.pushYn = 'Y';
-        }
+        
+        this.pushYn = 'Y';
     }
 
     public void addPushAgree(char pushYn) {

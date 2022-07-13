@@ -53,22 +53,18 @@ public class EmailService {
 
             javaMailSender.send(messagePreparator);
 
-            if  (emailAuthRepository.existsByEmail(emailSend.getEmail())) {
+            if (emailAuthRepository.existsByEmail(emailSend.getEmail())) {
                 EmailAuth emailAuth = emailAuthRepository.findByEmail(emailSend.getEmail()).orElseThrow(() -> new CommonException(NOT_FOUND_EMAIL));
                 emailAuth.updateCode(code);
-            }
-
-            else {
+            } else {
                 emailAuthRepository.save(EmailAuth.builder()
                         .email(emailSend.getEmail())
                         .code(code)
                         .build());
             }
-        }
-        catch (MailException e) {
+        } catch (MailException e) {
             throw new CommonException(FAILED_TO_SEND_EMAIL);
         }
-
 
 
     }
@@ -91,11 +87,9 @@ public class EmailService {
             };
             javaMailSender.send(messagePreparator);
 
-            Member member = memberRepository.findByEmail(emailSend.getEmail()).orElseThrow(() ->  new CommonException(NOT_FOUND_MEMBER));
+            Member member = memberRepository.findByEmail(emailSend.getEmail()).orElseThrow(() -> new CommonException(NOT_FOUND_MEMBER));
             member.changePassword((new BCryptPasswordEncoder().encode(tempPassword)));
-        }
-
-        else {
+        } else {
             throw new CommonException(NOT_FOUND_MEMBER);
         }
     }
@@ -103,8 +97,7 @@ public class EmailService {
     public boolean confirmCode(ConfirmCodeResquest confirmCodeResquest) {
         if (emailAuthRepository.existsByEmailAndCode(confirmCodeResquest.getEmail(), confirmCodeResquest.getCode())) {
             return true;
-        }
-        else {
+        } else {
             throw new CommonException(NOT_MATCHED_CODE);
         }
     }
@@ -112,23 +105,23 @@ public class EmailService {
     private String emailContentBuilder(int code) {
         Context context = new Context();
         context.setVariable("code", code);
-        return templateEngine.process("email-template", context);
+        return templateEngine.process("email-auth-template", context);
     }
 
     private String emailContentBuilder(String tempPassword) {
         Context context = new Context();
         context.setVariable("code", tempPassword);
-        return templateEngine.process("email-template", context);
+        return templateEngine.process("find-password-template", context);
     }
 
     private int createCode() {
-        int code = (int)((Math.random()* (9999 - 1000 + 1)) + 1000);
+        int code = (int) ((Math.random() * (9999 - 1000 + 1)) + 1000);
         return code;
     }
 
-    private String getTempPassword(){
-        char[] charArr = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+    private String getTempPassword() {
+        char[] charArr = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
         String str = "";
 
