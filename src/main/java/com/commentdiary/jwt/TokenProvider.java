@@ -27,8 +27,8 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 3;
-    private final long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 24 * 30;
+    private final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 24 * 30;
+    private final long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 60 * 60 * 24 * 180;
 
     private final Key key;
 
