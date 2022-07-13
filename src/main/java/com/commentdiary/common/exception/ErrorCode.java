@@ -12,6 +12,7 @@ public enum ErrorCode {
     /* 400 BAD_REQUEST : 잘못된 요청 */
     INVALID_EMAIL_ADDRESS(BAD_REQUEST, "올바른 이메일 주소를 입력해 주세요."),
     INVALID_LOGIN_TYPE(BAD_REQUEST, "올바른 로그인 타입을 입력해 주세요."),
+    INVALID_INPUT_VALUE(BAD_REQUEST, "잘못된 입력값입니다."),
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
     WRONG_TOKEN_SIGNATURE(UNAUTHORIZED, "잘못된 JWT 서명입니다."),
