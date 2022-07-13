@@ -47,19 +47,6 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CommonException(NOT_MATCHED_COMMENT));
         comment.likeComment();
         comment.controlTemperature();
-//
-//        Member member = comment.getMember();
-//        if (member != null) {
-//            int totalCmt = member.getComments().size();
-//            int likeCmt = (int) comment.getMember().getComments().stream().filter(c -> c.getIsLike()).count();
-//
-//            if (comment.getIsLike()) {
-//                member.plusTemp(likeCmt, totalCmt);
-//            }
-//            if (!comment.getIsLike()) {
-//                member.minusTemp(likeCmt, totalCmt);
-//            }
-//        }
 
         return LikeResponse.of(comment);
     }
