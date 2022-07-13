@@ -4,6 +4,7 @@ import com.commentdiary.common.domain.BaseTimeEntity;
 import com.commentdiary.common.exception.CommonException;
 import com.commentdiary.common.exception.ErrorCode;
 import com.commentdiary.src.comment.domain.Comment;
+import com.commentdiary.src.comment.domain.Comments;
 import com.commentdiary.src.member.domain.enums.LoginType;
 import com.commentdiary.src.member.domain.enums.MemberStatus;
 import com.commentdiary.src.member.domain.enums.Role;
@@ -42,8 +43,12 @@ public class Member extends BaseTimeEntity {
 
     private double temperature;
 
-    @OneToMany(mappedBy = "member")
-    private List<Comment> comments = new ArrayList<Comment>();
+//    @OneToMany(mappedBy = "member")
+//    private List<Comment> comments = new ArrayList<Comment>();
+
+    @Embedded
+    private Comments comments = new Comments();
+
 
     @Column(columnDefinition = "varchar(1) default 'Y'", nullable = false)
     private char pushYn;
@@ -77,9 +82,25 @@ public class Member extends BaseTimeEntity {
     public void changePushStatus() {
         if (this.pushYn == 'Y') {
             this.pushYn = 'N';
+            return;
         }
         else {
             this.pushYn = 'Y';
         }
+    }
+
+    public void addPushAgree(char pushYn) {
+        this.pushYn = pushYn;
+    }
+
+    public void controlTemperature(boolean isLike) {
+        int totalCommentCount = comments.totalCount();
+        int likeCommentCount = comments.likeCount();
+
+        if (isLike) {
+            plusTemp(likeCommentCount, totalCommentCount);
+            return;
+        }
+        minusTemp(likeCommentCount, totalCommentCount);
     }
 }
