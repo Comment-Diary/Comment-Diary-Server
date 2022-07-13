@@ -9,9 +9,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ prod ]
   pull_request:
-    branches: [ dev ]
+    branches: [ prod ]
 
 jobs:
   build:
@@ -51,13 +51,12 @@ jobs:
       # 압축파일 형태로 전달
       - name: Make zip file
         run: zip -r -qq -j ./comment-diary-build.zip ./deploy
-
       # S3 Bucket으로 copy
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.CODA_PROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.CODA_PROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
@@ -65,14 +64,14 @@ jobs:
           aws s3 cp \
           --region ap-northeast-2 \
           --acl private \
-          ./comment-diary-build.zip s3://jwyang-cicd-bucket/
+          ./comment-diary-build.zip s3://comment-diary/
 
       # Deploy
       - name: Code Deploy
         run: |
           aws deploy create-deployment \
           --application-name comment-diary \
-          --deployment-group-name comment-diary-deploy-group \
+          --deployment-group-name comment-diary \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=jwyang-cicd-bucket,bundleType=zip,key=comment-diary-build.zip \
+          --s3-location bucket=comment-diary,bundleType=zip,key=comment-diary-build.zip \
           --region ap-northeast-2
