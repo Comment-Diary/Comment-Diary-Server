@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @Builder
-public class ErrorResponse {
+public class ErrorResponse<T> {
     private int status;
     private String code;
-    private String message;
+    private T message;
 
     public static ResponseEntity<ErrorResponse> toCommonExceptionEntity(ErrorCode errorCode) {
         return ResponseEntity
@@ -20,6 +22,17 @@ public class ErrorResponse {
                         .status(errorCode.getHttpStatus().value())
                         .code(errorCode.name())
                         .message(errorCode.getMessage())
+                        .build());
+    }
+
+    public static ResponseEntity<ErrorResponse> toValidationException(Map<String, String> errors) {
+        ErrorCode errorCode = ErrorCode.INVALID_INPUT_VALUE;
+        return ResponseEntity
+                .status(errorCode.getHttpStatus())
+                .body(ErrorResponse.builder()
+                        .status(errorCode.getHttpStatus().value())
+                        .code(errorCode.name())
+                        .message(errors)
                         .build());
     }
 
