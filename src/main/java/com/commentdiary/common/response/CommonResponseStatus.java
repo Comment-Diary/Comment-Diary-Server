@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum CommonResponseStatus {
 
-    SUCCESS(1000, "요청에 성공하였습니다.")
+    SUCCESS(200, "요청에 성공하였습니다."),
     ;
 
     private final int code;
