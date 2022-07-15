@@ -35,6 +35,6 @@ DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 
 nohup java -jar \
     -Dspring.config.location=classpath:/application.yml,/home/ec2-user/app/resources/application-prod.yml \
-    -Dserver.port=${TARGET_PORT} $DEPLOY_JAR > /home/ec2-user/app/nohup.out 2>&1 &
+    -Dserver.port=${TARGET_PORT} $DEPLOY_JAR > /home/ec2-user/app/deploy/nohup.out 2>&1 &
 echo "> Now new WAS runs at ${TARGET_PORT}." >> /home/ec2-user/app/scripts_log/start.log
 exit 0
