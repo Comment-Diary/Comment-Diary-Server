@@ -29,7 +29,6 @@ public class SignUpRequest {
     @NotBlank(message = "비밀번호를 입력해 주세요.")
     private String checkPassword;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
 
@@ -39,7 +38,7 @@ public class SignUpRequest {
         return Member.builder()
                 .email(email)
                 .password(new BCryptPasswordEncoder().encode(password))
-                .loginType(loginType)
+                .loginType(LoginType.EMAIL)
                 .pushYn(pushYn)
                 .temperature(36.5)
                 .role(Role.ROLE_USER)

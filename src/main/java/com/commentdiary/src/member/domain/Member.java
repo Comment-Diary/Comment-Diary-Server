@@ -55,7 +55,7 @@ public class Member extends BaseTimeEntity {
     private MemberStatus status;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 10, nullable = false)
+    @Column(length = 10)
     private LoginType loginType;
 
     public void checkPassword(PasswordEncoder passwordEncoder, String password) {
